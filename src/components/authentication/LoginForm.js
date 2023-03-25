@@ -5,7 +5,7 @@ import { Button, Col, Form, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import SocialAuthButtons from './SocialAuthButtons';
-import firebase from '../../firebase';
+import { auth } from '../../firebase';
 
 const LoginForm = ({ hasLabel, layout }) => {
   // State

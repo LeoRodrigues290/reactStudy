@@ -37,7 +37,7 @@ const RegistrationForm = ({ hasLabel }) => {
                 formData.password
             );
             const user = userCredential.user;
-            await user.updateProfile({ displayName: formData.name });
+            await auth.currentUser.updateProfile({ displayName: formData.name });
             toast.success(`Cadastro realizado com sucesso como ${formData.name}`, {
                 theme: 'colored'
             });

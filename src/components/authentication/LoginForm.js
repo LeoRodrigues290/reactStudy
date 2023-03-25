@@ -5,6 +5,7 @@ import { Button, Col, Form, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import SocialAuthButtons from './SocialAuthButtons';
+import firebase from '../../firebase';
 
 const LoginForm = ({ hasLabel, layout }) => {
   // State
@@ -15,11 +16,18 @@ const LoginForm = ({ hasLabel, layout }) => {
   });
 
   // Handler
-  const handleSubmit = e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    toast.success(`Logged in as ${formData.email}`, {
-      theme: 'colored'
-    });
+    try {
+      await firebase.auth().signInWithEmailAndPassword(formData.email, formData.password); // Autentique o usuário com o Firebase
+      toast.success(`Logged in as ${formData.email}`, {
+        theme: 'colored'
+      });
+    } catch (error) {
+      toast.error(error.message, {
+        theme: 'colored'
+      });
+    }
   };
 
   const handleFieldChange = e => {
@@ -30,74 +38,74 @@ const LoginForm = ({ hasLabel, layout }) => {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Form.Group className="mb-3">
-        {hasLabel && <Form.Label>Email address</Form.Label>}
-        <Form.Control
-          placeholder={!hasLabel ? 'Email address' : ''}
-          value={formData.email}
-          name="email"
-          onChange={handleFieldChange}
-          type="email"
-        />
-      </Form.Group>
+      <Form onSubmit={handleSubmit}>
+        <Form.Group className="mb-3">
+          {hasLabel && <Form.Label>Email address</Form.Label>}
+          <Form.Control
+              placeholder={!hasLabel ? 'Email address' : ''}
+              value={formData.email}
+              name="email"
+              onChange={handleFieldChange}
+              type="email"
+          />
+        </Form.Group>
 
-      <Form.Group className="mb-3">
-        {hasLabel && <Form.Label>Password</Form.Label>}
-        <Form.Control
-          placeholder={!hasLabel ? 'Password' : ''}
-          value={formData.password}
-          name="password"
-          onChange={handleFieldChange}
-          type="password"
-        />
-      </Form.Group>
+        <Form.Group className="mb-3">
+          {hasLabel && <Form.Label>Password</Form.Label>}
+          <Form.Control
+              placeholder={!hasLabel ? 'Password' : ''}
+              value={formData.password}
+              name="password"
+              onChange={handleFieldChange}
+              type="password"
+          />
+        </Form.Group>
 
-      <Row className="justify-content-between align-items-center">
-        <Col xs="auto">
-          <Form.Check type="checkbox" id="rememberMe" className="mb-0">
-            <Form.Check.Input
-              type="checkbox"
-              name="remember"
-              checked={formData.remember}
-              onChange={e =>
-                setFormData({
-                  ...formData,
-                  remember: e.target.checked
-                })
-              }
-            />
-            <Form.Check.Label className="mb-0 text-700">
-              Remember me
-            </Form.Check.Label>
-          </Form.Check>
-        </Col>
+        <Row className="justify-content-between align-items-center">
+          <Col xs="auto">
+            <Form.Check type="checkbox" id="rememberMe" className="mb-0">
+              <Form.Check.Input
+                  type="checkbox"
+                  name="remember"
+                  checked={formData.remember}
+                  onChange={e =>
+                      setFormData({
+                        ...formData,
+                        remember: e.target.checked
+                      })
+                  }
+              />
+              <Form.Check.Label className="mb-0 text-700">
+                Remember me
+              </Form.Check.Label>
+            </Form.Check>
+          </Col>
 
-        <Col xs="auto">
-          <Link
-            className="fs--1 mb-0"
-            to={`/authentication/${layout}/forgot-password`}
+          <Col xs="auto">
+            <Link
+                className="fs--1 mb-0"
+                to={`/authentication/${layout}/forgot-password`}
+            >
+              Forgot Password?
+            </Link>
+          </Col>
+        </Row>
+
+        <Form.Group>
+          <Button
+              type="submit"
+              color="primary"
+              className="mt-3 w-100"
+              disabled={!formData.email || !formData.password}
           >
-            Forgot Password?
-          </Link>
-        </Col>
-      </Row>
+            Log in
+          </Button>
+        </Form.Group>
 
-      <Form.Group>
-        <Button
-          type="submit"
-          color="primary"
-          className="mt-3 w-100"
-          disabled={!formData.email || !formData.password}
-        >
-          Log in
-        </Button>
-      </Form.Group>
+        <Divider className="mt-4">or log in with</Divider>
 
-      <Divider className="mt-4">or log in with</Divider>
-
-      <SocialAuthButtons />
-    </Form>
+        <SocialAuthButtons />
+      </Form>
   );
 };
 

@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const SocialAuthButtons = () => (
   <Form.Group className="mb-0">
-    <Row className={"justify-content-center"}>
+    <Row>
       <Col sm={6} className="pe-sm-1">
         <Button
           variant=""
@@ -16,7 +16,21 @@ const SocialAuthButtons = () => (
             transform="grow-8"
             className="me-2"
           />{' '}
-          Google
+          google
+        </Button>
+      </Col>
+      <Col sm={6} className="ps-sm-1">
+        <Button
+          variant=""
+          size="sm"
+          className="btn-outline-facebook mt-2 w-100"
+        >
+          <FontAwesomeIcon
+            icon={['fab', 'facebook-square']}
+            transform="grow-8"
+            className="me-2"
+          />{' '}
+          facebook
         </Button>
       </Col>
     </Row>

@@ -123,7 +123,7 @@ const CourseGrid = ({ course }) => {
                 }
               >
                 <Button
-                  variant={`${isInCart(id) ? 'primary' : 'falcon-dashboard'}`}
+                  variant={`${isInCart(id) ? 'primary' : 'falcon-default'}`}
                   size="sm"
                   onClick={handleAddToCart}
                 >

@@ -88,7 +88,7 @@ const treeviewItems = [
         id: '13',
         children: [
           {
-            name: 'dashboard.html',
+            name: 'default.html',
             icon: ['fab', 'html5'],
             iconClass: 'text-danger',
             id: '14'
@@ -146,7 +146,7 @@ const treeviewItems = [
         id: '22'
       },
       {
-        name: 'dashboard.pdf',
+        name: 'default.pdf',
         icon: 'file-pdf',
         iconClass: 'text-danger',
         dot: 'primary',

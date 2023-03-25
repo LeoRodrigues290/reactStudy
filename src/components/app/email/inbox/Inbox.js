@@ -40,7 +40,7 @@ const ActionButton = ({
   tooltip,
   icon,
   handleClick,
-  variant = 'falcon-dashboard'
+  variant = 'falcon-default'
 }) => (
   <OverlayTrigger overlay={<Tooltip>{tooltip}</Tooltip>}>
     <Button variant={variant} onClick={handleClick} className="shdaow-none">

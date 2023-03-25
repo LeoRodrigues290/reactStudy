@@ -136,7 +136,7 @@ $updated-height-remove: $top-nav-height + $page-header-height +
   }
 }
 
-// Update Draggable dashboard styles
+// Update Draggable default styles
 .draggable--is-dragging * {
   cursor: grab !important;
 }

@@ -111,17 +111,8 @@ const FooterStandard = () => {
           <Row className="justify-content-between">
             <Col xs={12} sm="auto">
               <p className="mb-0 text-600">
-                Thank you for creating with Falcon{' '}
-                <span className="d-none d-sm-inline-block">| </span>
                 <br className="d-sm-none" /> {new Date().getFullYear()} &copy;{' '}
-                <a
-                  className="text-white opacity-85"
-                  href="https://themewagon.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  ThemeWagon
-                </a>
+                <span className="d-none d-sm-inline-block">Allomni</span>
               </p>
             </Col>
             <Col xs={12} sm="auto">

@@ -16,22 +16,22 @@ export const dashboardRoutes = {
         {
           name: 'Analytics',
           to: '/dashboard/analytics',
-          active: true
+          active: false
         },
         {
           name: 'CRM',
           to: '/dashboard/crm',
-          active: true
+          active: false
         },
         {
           name: 'E Commerce',
           to: '/dashboard/e-commerce',
-          active: true
+          active: false
         },
         {
           name: 'LMS',
           to: '/dashboard/lms',
-          active: true,
+          active: false,
           badge: {
             type: 'success',
             text: 'New'
@@ -40,17 +40,17 @@ export const dashboardRoutes = {
         {
           name: 'Management',
           to: '/dashboard/project-management',
-          active: true
+          active: false
         },
         {
           name: 'SaaS',
           to: '/dashboard/saas',
-          active: true
+          active: false
         },
         {
           name: 'Support desk',
           to: '/dashboard/support-desk',
-          active: true,
+          active: false,
           badge: {
             type: 'success',
             text: 'New'
@@ -60,6 +60,37 @@ export const dashboardRoutes = {
     }
   ]
 };
+
+export const dadosRoutes = {
+  label: 'Dados',
+  children: [
+    {
+      name: 'Planejamento Anual',
+      icon: 'calendar-alt',
+      to: '/dados/planejamento-anual',
+      active: true
+    },
+    {
+      name: 'Cockpit',
+      icon: 'globe',
+      to: '/dados/cockpit',
+      active: true
+    },
+    {
+      name: 'Calendário Comercial',
+      icon: 'calendar-day',
+      to: '/dados/calendario-comercial',
+      active: true
+    },
+    {
+      name: 'Plano de Ação',
+      icon: 'list',
+      to: '/dados/plano-de-acao',
+      active: true
+    },
+  ]
+}
+
 export const appRoutes = {
   label: 'app',
   children: [
@@ -497,8 +528,8 @@ export const pagesRoutes = {
       active: true,
       children: [
         {
-          name: 'Pricing default',
-          to: '/pricing/pricing-default',
+          name: 'Pricing dashboard',
+          to: '/pricing/pricing-dashboard',
           active: true
         },
         {
@@ -1292,8 +1323,9 @@ export const documentationRoutes = {
 
 export default [
   dashboardRoutes,
-  appRoutes,
-  pagesRoutes,
-  modulesRoutes,
-  documentationRoutes
+  dadosRoutes,
+  // appRoutes,
+  // pagesRoutes,
+  // modulesRoutes,
+  // documentationRoutes
 ];

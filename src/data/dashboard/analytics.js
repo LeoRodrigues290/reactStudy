@@ -99,7 +99,7 @@ export const intelligence = [
   {
     title: 'Where you get your users from',
     icon: 'project-diagram',
-    description: 'What are my top default channel groupings by user?'
+    description: 'What are my top dashboard channel groupings by user?'
   },
   {
     title: 'Geographic Analysis',

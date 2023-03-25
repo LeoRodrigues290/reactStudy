@@ -33,6 +33,9 @@ const LoginForm = ({hasLabel, layout}) => {
             toast.success(`Seja Bem-vindo ${formData.email}`, {
                 theme: 'colored'
             });
+            setTimeout(function() {
+                window.location.href = '/';
+            }, 1000);
         } catch (error) {
             switch (error.code) {
                 case "auth/user-not-found":
@@ -53,6 +56,7 @@ const LoginForm = ({hasLabel, layout}) => {
             }
         }
     };
+
 
     const handleFieldChange = e => {
         const {name, value, checked} = e.target;

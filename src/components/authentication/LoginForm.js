@@ -26,25 +26,40 @@ const LoginForm = ({hasLabel, layout}) => {
         remember: false
     });
 
-    // Handler
+    // Handlers
     const handleLogin = async () => {
         try {
             await signInWithEmailAndPassword(auth, formData.email, formData.password);
-            toast.success(`Logged in as ${formData.email}`, {
+            toast.success(`Seja Bem-vindo ${formData.email}`, {
                 theme: 'colored'
             });
         } catch (error) {
-            toast.error(error.message, {
-                theme: 'colored'
-            });
+            switch (error.code) {
+                case "auth/user-not-found":
+                    toast.error("Endereço de e-mail não encontrado.", {
+                        theme: 'colored'
+                    });
+                    break;
+                case "auth/wrong-password":
+                    toast.error("Senha incorreta, por favor tente novamente.", {
+                        theme: 'colored'
+                    });
+                    break;
+                default:
+                    toast.error(error.message, {
+                        theme: 'colored'
+                    });
+                    break;
+            }
         }
     };
 
     const handleFieldChange = e => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
+        const {name, value, checked} = e.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: name === 'remember' ? checked : value
+        }));
     };
 
     const handleSubmit = e => {
@@ -83,12 +98,7 @@ const LoginForm = ({hasLabel, layout}) => {
                             type="checkbox"
                             name="remember"
                             checked={formData.remember}
-                            onChange={e =>
-                                setFormData({
-                                    ...formData,
-                                    remember: e.target.checked
-                                })
-                            }
+                            onChange={handleFieldChange}
                         />
                         <Form.Check.Label className="mb-0 text-700">
                             Lembrar de mim

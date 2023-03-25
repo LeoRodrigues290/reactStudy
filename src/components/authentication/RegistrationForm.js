@@ -1,13 +1,11 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router-dom';
-import {toast, ToastContainer} from 'react-toastify';
+import { Link } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {Button, Form, Row, Col} from 'react-bootstrap';
-import Divider from 'components/common/Divider';
-import SocialAuthButtons from './SocialAuthButtons';
-import {initializeApp} from 'firebase/app';
-import {getAuth, createUserWithEmailAndPassword, updateProfile} from 'firebase/auth';
+import { Button, Form, Row, Col } from 'react-bootstrap';
+import { initializeApp } from 'firebase/app';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -15,13 +13,13 @@ const firebaseConfig = {
     projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
     storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
     messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-    appId: process.env.REACT_APP_FIREBASE_APP_ID,
+    appId: process.env.REACT_APP_FIREBASE_APP_ID
 };
 
-firebase.initializeApp(firebaseConfig);
+initializeApp(firebaseConfig);
+const auth = getAuth();
 
-const RegistrationForm = ({hasLabel}) => {
-// State
+const RegistrationForm = ({ hasLabel }) => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -30,11 +28,11 @@ const RegistrationForm = ({hasLabel}) => {
         isAccepted: false
     });
 
-// Handler
-    const handleSubmit = async e => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const userCredential = await auth.createUserWithEmailAndPassword(
+            const userCredential = await createUserWithEmailAndPassword(
+                auth,
                 formData.email,
                 formData.password
             );
@@ -48,7 +46,7 @@ const RegistrationForm = ({hasLabel}) => {
         }
     };
 
-    const handleFieldChange = e => {
+    const handleFieldChange = (e) => {
         setFormData({
             ...formData,
             [e.target.name]: e.target.value
@@ -137,9 +135,6 @@ const RegistrationForm = ({hasLabel}) => {
                     Register
                 </Button>
             </Form.Group>
-            <Divider>or register with</Divider>
-
-            <SocialAuthButtons/>
         </Form>
     );
 };

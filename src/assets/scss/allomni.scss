@@ -1,0 +1,27 @@
+.Table {
+  th {
+    font-weight: bold;
+    text-align: center;
+    background-color: #F5F5F5;
+    color: #333;
+  }
+
+  td {
+    text-align: center;
+
+    input[type="text"] {
+      border: none;
+      background-color: transparent;
+      width: 100%;
+      font-size: 14px;
+    }
+  }
+
+  tr:nth-child(even) {
+    background-color: #F9F9F9;
+  }
+
+  tr:hover {
+    background-color: #FAFAFA;
+  }
+}

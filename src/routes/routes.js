@@ -1,3 +1,5 @@
+//Importar o componente em Layouts.js
+
 export const dashboardRoutes = {
   label: 'Dashboard',
   labelDisable: true,

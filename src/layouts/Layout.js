@@ -201,6 +201,9 @@ import TicketsPreview from 'components/app/support-desk/tickets-preview/TicketsP
 import QuickLinks from 'components/app/support-desk/quick-links/QuickLinks';
 import Reports from 'components/app/support-desk/reports/Reports';
 
+//Allomni Imports
+import PlanejamentoAnual from "components/dados/PlanejamentoAnual";
+
 const Layout = () => {
   const HTMLClassList = document.getElementsByTagName('html')[0].classList;
   const {
@@ -232,6 +235,9 @@ const Layout = () => {
   return (
     <>
       <Routes>
+        {/*Allomni*/}
+        <Route path="dados/planejamento-anual" element={<PlanejamentoAnual />} />
+
         <Route path="landing" element={<Landing />} />
         <Route element={<ErrorLayout />}>
           <Route path="errors/404" element={<Error404 />} />

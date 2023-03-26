@@ -4,8 +4,8 @@ import ForgetPasswordForm from 'components/authentication/ForgetPasswordForm';
 const ForgetPassword = () => {
   return (
     <div className="text-center">
-      <h5 className="mb-0"> Forgot your password?</h5>
-      <small>Enter your email and we'll send you a reset link.</small>
+      <h5 className="mb-0">Esqueceu sua senha?</h5>
+      <small>Digite seu e-mail e enviaremos um link de redefinição.</small>
       <ForgetPasswordForm />
     </div>
   );

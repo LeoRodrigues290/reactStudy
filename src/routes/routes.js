@@ -6,61 +6,12 @@ export const dashboardRoutes = {
   children: [
     {
       name: 'Dashboard',
-      active: true,
       icon: 'chart-pie',
-      children: [
-        {
-          name: 'Default',
-          to: '/',
-          exact: true,
-          active: true
-        },
-        {
-          name: 'Analytics',
-          to: '/dashboard/analytics',
-          active: false
-        },
-        {
-          name: 'CRM',
-          to: '/dashboard/crm',
-          active: false
-        },
-        {
-          name: 'E Commerce',
-          to: '/dashboard/e-commerce',
-          active: false
-        },
-        {
-          name: 'LMS',
-          to: '/dashboard/lms',
-          active: false,
-          badge: {
-            type: 'success',
-            text: 'New'
-          }
-        },
-        {
-          name: 'Management',
-          to: '/dashboard/project-management',
-          active: false
-        },
-        {
-          name: 'SaaS',
-          to: '/dashboard/saas',
-          active: false
-        },
-        {
-          name: 'Support desk',
-          to: '/dashboard/support-desk',
-          active: false,
-          badge: {
-            type: 'success',
-            text: 'New'
-          }
-        }
-      ]
+      to: '/',
+      exact: true,
+      active: true,
     }
-  ]
+    ]
 };
 
 export const dadosRoutes = {

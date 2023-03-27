@@ -5,7 +5,9 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Button, Form, Row, Col } from 'react-bootstrap';
 import { initializeApp } from 'firebase/app';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { getFirestore, doc, setDoc } from 'firebase/firestore';
+
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -18,6 +20,7 @@ const firebaseConfig = {
 
 initializeApp(firebaseConfig);
 const auth = getAuth();
+const db = getFirestore();
 
 const RegistrationForm = ({ hasLabel }) => {
     const [formData, setFormData] = useState({
@@ -37,10 +40,19 @@ const RegistrationForm = ({ hasLabel }) => {
                 formData.password
             );
             const user = userCredential.user;
-            await auth.currentUser.updateProfile({ displayName: formData.name });
+            await updateProfile(auth.currentUser, { displayName: formData.name });
+
+            // Crie um documento para o usuário no Firestore com o mesmo ID do usuário do Firebase Authentication
+            const userRef = doc(db, 'users', user.uid);
+            await setDoc(userRef, {
+                name: formData.name,
+                email: formData.email
+            });
+
             toast.success(`Cadastro realizado com sucesso como ${formData.name}`, {
                 theme: 'colored'
             });
+
         } catch (error) {
             toast.error(error.message, { theme: 'colored' });
         }

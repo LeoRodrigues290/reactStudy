@@ -99,7 +99,6 @@ PlanejamentoAnual.propTypes = {
             })
         )
     ),
-    planilhaImportada: PropTypes.bool.isRequired,
 };
 
 

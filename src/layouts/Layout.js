@@ -235,9 +235,6 @@ const Layout = () => {
   return (
     <>
       <Routes>
-        {/*Allomni*/}
-        <Route path="dados/planejamento-anual" element={<PlanejamentoAnual />} />
-
         <Route path="landing" element={<Landing />} />
         <Route element={<ErrorLayout />}>
           <Route path="errors/404" element={<Error404 />} />
@@ -407,6 +404,9 @@ const Layout = () => {
           {/* maps */}
           <Route path="maps/google-map" element={<GoogleMapExample />} />
           <Route path="maps/leaflet-map" element={<LeafletMapExample />} />
+
+          {/*Allomni*/}
+          <Route path="dados/planejamento-anual" element={<PlanejamentoAnual />} />
 
           {/*App*/}
           <Route path="app/calendar" element={<Calendar />} />

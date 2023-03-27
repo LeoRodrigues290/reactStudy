@@ -628,7 +628,6 @@ const Layout = () => {
         {/* <Navigate to="/errors/404" /> */}
         <Route path="*" element={<Navigate to="/errors/404" replace />} />
       </Routes>
-      <SettingsToggle />
       <SettingsPanel />
       <ToastContainer
         closeButton={CloseButton}

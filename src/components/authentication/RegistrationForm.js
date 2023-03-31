@@ -68,7 +68,7 @@ const RegistrationForm = ({ hasLabel }) => {
     return (
         <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3">
-                {hasLabel && <Form.Label>Name</Form.Label>}
+                {hasLabel && <Form.Label>Nome</Form.Label>}
                 <Form.Control
                     placeholder={!hasLabel ? 'Name' : ''}
                     value={formData.name}
@@ -79,7 +79,7 @@ const RegistrationForm = ({ hasLabel }) => {
             </Form.Group>
 
             <Form.Group className="mb-3">
-                {hasLabel && <Form.Label>Email address</Form.Label>}
+                {hasLabel && <Form.Label>E-mail</Form.Label>}
                 <Form.Control
                     placeholder={!hasLabel ? 'Email address' : ''}
                     value={formData.email}
@@ -91,7 +91,7 @@ const RegistrationForm = ({ hasLabel }) => {
 
             <Row className="g-2 mb-3">
                 <Form.Group as={Col} sm={6}>
-                    {hasLabel && <Form.Label>Password</Form.Label>}
+                    {hasLabel && <Form.Label>Senha</Form.Label>}
                     <Form.Control
                         placeholder={!hasLabel ? 'Password' : ''}
                         value={formData.password}
@@ -101,7 +101,7 @@ const RegistrationForm = ({ hasLabel }) => {
                     />
                 </Form.Group>
                 <Form.Group as={Col} sm={6}>
-                    {hasLabel && <Form.Label>Confirm Password</Form.Label>}
+                    {hasLabel && <Form.Label>Confirme sua senha</Form.Label>}
                     <Form.Control
                         placeholder={!hasLabel ? 'Confirm Password' : ''}
                         value={formData.confirmPassword}
@@ -126,8 +126,8 @@ const RegistrationForm = ({ hasLabel }) => {
                         }
                     />
                     <Form.Check.Label className="form-label">
-                        I accept the <Link to="#!">terms</Link> and{' '}
-                        <Link to="#!">privacy policy</Link>
+                        Eu li e aceito com os <Link to="#!">Termos de Uso</Link> e{' '}
+                        <Link to="#!">Política de Privacidade</Link>
                     </Form.Check.Label>
                 </Form.Check>
             </Form.Group>
@@ -144,7 +144,7 @@ const RegistrationForm = ({ hasLabel }) => {
                         !formData.isAccepted
                     }
                 >
-                    Register
+                    Cadastrar
                 </Button>
             </Form.Group>
         </Form>

@@ -80,7 +80,7 @@ const NotificationDropdown = () => {
                 to="#!"
                 onClick={markAsRead}
               >
-                Mark all as read
+                Marcar como lido
               </Link>
             }
           />
@@ -89,14 +89,14 @@ const NotificationDropdown = () => {
             className="fw-normal fs--1 scrollbar"
             style={{ maxHeight: '19rem' }}
           >
-            <div className="list-group-title">NEW</div>{' '}
+            <div className="list-group-title">NOVO</div>{' '}
             {isIterableArray(newNotifications) &&
               newNotifications.map(notification => (
                 <ListGroup.Item key={notification.id} onClick={handleToggle}>
                   <Notification {...notification} flush />
                 </ListGroup.Item>
               ))}
-            <div className="list-group-title">EARLIER</div>
+            <div className="list-group-title">MAIS CEDO</div>
             {isIterableArray(earlierNotifications) &&
               earlierNotifications.map(notification => (
                 <ListGroup.Item key={notification.id} onClick={handleToggle}>
@@ -109,7 +109,7 @@ const NotificationDropdown = () => {
             onClick={handleToggle}
           >
             <Link className="card-link d-block" to="#!">
-              View all
+              Ver tudo
             </Link>
           </div>
         </Card>

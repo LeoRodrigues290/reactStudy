@@ -7,7 +7,7 @@ export const settings = {
   isDark: false,
   navbarPosition: 'vertical',
   showBurgerMenu: false, // controls showing vertical nav on mobile
-  currency: '$',
+  currency: 'R$',
   isNavbarVerticalCollapsed: false, // toggle vertical navbar collapse
   navbarStyle: 'transparent'
 };

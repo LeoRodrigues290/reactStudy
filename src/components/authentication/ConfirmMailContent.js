@@ -13,10 +13,10 @@ const ConfirmMailContent = ({ email, layout, titleTag: TitleTag }) => (
       alt="sent"
       width={100}
     />
-    <TitleTag>Please check your email!</TitleTag>
+    <TitleTag>Por favor verifique sua caixa de e-mail!</TitleTag>
     <p>
-      An email has been sent to <strong>{email}</strong>. Please click on the
-      included link to reset your password.
+        Um e-mail foi enviado para <strong>{email}</strong>. Por favor, clique no
+        link no corpo do e-mail para redefinir sua senha.
     </p>
     <Button
       as={Link}
@@ -30,7 +30,7 @@ const ConfirmMailContent = ({ email, layout, titleTag: TitleTag }) => (
         transform="shrink-4 down-1"
         className="me-1"
       />
-      Return to login
+      Voltar para o login
     </Button>
   </>
 );

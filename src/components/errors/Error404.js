@@ -10,20 +10,20 @@ const Error404 = () => {
       <Card.Body className="p-5">
         <div className="display-1 text-300 fs-error">404</div>
         <p className="lead mt-4 text-800 font-sans-serif fw-semi-bold">
-          The page you're looking for is not found.
+          A página que você está procurando não foi encontrada.
         </p>
         <hr />
         <p>
-          Make sure the address is correct and that the page hasn't moved. If
-          you think this is a mistake,
+          Verifique se o endereço está correto. Se
+          você acredita que isso é um erro,
           <a href="mailto:info@exmaple.com" className="ms-1">
-            contact us
+            entre em contato conosco
           </a>
           .
         </p>
         <Link className="btn btn-primary btn-sm mt-3" to="/">
           <FontAwesomeIcon icon={faHome} className="me-2" />
-          Take me home
+          Voltar para a home
         </Link>
       </Card.Body>
     </Card>

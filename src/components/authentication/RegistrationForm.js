@@ -28,7 +28,8 @@ const RegistrationForm = ({ hasLabel }) => {
         email: '',
         password: '',
         confirmPassword: '',
-        isAccepted: false
+        isAccepted: false,
+        user_type: ''
     });
 
     const handleSubmit = async (e) => {
@@ -46,7 +47,8 @@ const RegistrationForm = ({ hasLabel }) => {
             const userRef = doc(db, 'users', user.uid);
             await setDoc(userRef, {
                 name: formData.name,
-                email: formData.email
+                email: formData.email,
+                user_type: formData.user_type
             });
 
             toast.success(`Cadastro realizado com sucesso como ${formData.name}`, {
@@ -70,7 +72,7 @@ const RegistrationForm = ({ hasLabel }) => {
             <Form.Group className="mb-3">
                 {hasLabel && <Form.Label>Nome</Form.Label>}
                 <Form.Control
-                    placeholder={!hasLabel ? 'Name' : ''}
+                    placeholder={!hasLabel ? 'Nome' : ''}
                     value={formData.name}
                     name="name"
                     onChange={handleFieldChange}
@@ -81,7 +83,7 @@ const RegistrationForm = ({ hasLabel }) => {
             <Form.Group className="mb-3">
                 {hasLabel && <Form.Label>E-mail</Form.Label>}
                 <Form.Control
-                    placeholder={!hasLabel ? 'Email address' : ''}
+                    placeholder={!hasLabel ? 'E-mail' : ''}
                     value={formData.email}
                     name="email"
                     onChange={handleFieldChange}
@@ -90,6 +92,17 @@ const RegistrationForm = ({ hasLabel }) => {
             </Form.Group>
 
             <Row className="g-2 mb-3">
+                <Form.Group className="mb-3">
+                    <Form.Label>Tipo de usuário</Form.Label>
+                    <Form.Control as="select" name="user_type" value={formData.user_type} onChange={handleFieldChange}>
+                        <option value="">Selecione um tipo de usuário</option>
+                        <option value="admin">Administrador</option>
+                        <option value="project_manager">Gerente de Projeto</option>
+                        <option value="cliente_manager">Gerente de Projeto (Cliente)</option>
+                        <option value="analyst">Analista</option>
+                    </Form.Control>
+                </Form.Group>
+
                 <Form.Group as={Col} sm={6}>
                     {hasLabel && <Form.Label>Senha</Form.Label>}
                     <Form.Control

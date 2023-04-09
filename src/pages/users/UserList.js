@@ -55,7 +55,7 @@ const UserList = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {users.map(({ name, email, user_type }) => (
+                {filteredUsers.map(({ name, email, user_type }) => (
                     <tr key={email}>
                         <td>{name}</td>
                         <td>{email}</td>

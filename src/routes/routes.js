@@ -12,6 +12,13 @@ export const dashboardRoutes = {
       active: true,
     },
     {
+      name: 'Projetos',
+      icon: 'file',
+      to: '/projetos',
+      exact: true,
+      active: true,
+    },
+    {
       name: 'Usuários',
       icon: 'users',
       to: '/usuarios',

@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {Form, Button} from 'react-bootstrap';
+import Select from 'react-select';
 import {initializeApp} from 'firebase/app';
-import {getFirestore} from 'firebase/firestore';
+import {getFirestore, collection, query, where, getDocs} from 'firebase/firestore';
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -19,21 +20,24 @@ const db = getFirestore();
 function AddProject(props) {
     const [name, setName] = useState('');
     const [selectedUsers, setSelectedUsers] = useState([]);
+    const [userOptions, setUserOptions] = useState([]);
+
+    useEffect(() => {
+        const loadUsers = async () => {
+            const usersQuery = query(collection(db, 'users'));
+            const usersSnapshot = await getDocs(usersQuery);
+            const users = usersSnapshot.docs.map(doc => ({ value: doc.id, label: doc.data().name }));
+            setUserOptions(users);
+        };
+        loadUsers();
+    }, []);
 
     const handleNameChange = (event) => {
         setName(event.target.value);
     };
 
-    const handleProjectManagerChange = (event) => {
-        setProjectManager(event.target.value);
-    };
-
-    const handleClienteManagerChange = (event) => {
-        setClienteManager(event.target.value.split(','));
-    };
-
-    const handleAnalystChange = (event) => {
-        setAnalyst(event.target.value.split(','));
+    const handleUserSelect = (selectedOptions) => {
+        setSelectedUsers(selectedOptions.map(option => option.value));
     };
 
     const handleSubmit = async (event) => {
@@ -47,7 +51,7 @@ function AddProject(props) {
             props.onSuccess();
         } catch (error) {
             console.log(error);
-            props.onError();
+            props.onError ? props.onError() : null;
         }
     };
 
@@ -58,7 +62,12 @@ function AddProject(props) {
                 <Form.Control type="text" placeholder="Nome" value={name} onChange={handleNameChange} required/>
             </Form.Group>
 
-            <Button variant="primary" type="submit">
+            <Form.Group className="mt-2">
+                <Form.Label>Selecione os usuários</Form.Label>
+                <Select options={userOptions} isMulti={true} onChange={handleUserSelect} />
+            </Form.Group>
+
+            <Button className="mt-3 w-100" variant="primary" type="submit">
                 Registrar
             </Button>
         </Form>

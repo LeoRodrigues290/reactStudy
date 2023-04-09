@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Modal, Button } from 'react-bootstrap';
 import ActionButton from 'components/common/ActionButton';
-import { getFirestore, collection, getDocs } from 'firebase/firestore';
+import { getFirestore, collection, getDocs, doc, deleteDoc } from 'firebase/firestore';
+import { getAuth, deleteUser } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
 import AddUser from './AddUser';
 
@@ -16,6 +17,7 @@ const firebaseConfig = {
 
 initializeApp(firebaseConfig);
 const db = getFirestore();
+const auth = getAuth();
 
 const UserList = () => {
     const [users, setUsers] = useState([]);
@@ -25,7 +27,7 @@ const UserList = () => {
     useEffect(() => {
         const fetchUsers = async () => {
             const querySnapshot = await getDocs(collection(db, 'users'));
-            const users = querySnapshot.docs.map((doc) => doc.data());
+            const users = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
             setUsers(users);
         };
 
@@ -38,6 +40,15 @@ const UserList = () => {
 
     const handleCloseAddUser = () => {
         setShowAddUser(false);
+    };
+
+    const handleDeleteUser = async (userId) => {
+        // Deletar usuário do Firestore
+        await deleteDoc(doc(db, 'users', userId));
+        // Deletar usuário do Firebase Authentication
+        await deleteUser(auth.currentUser);
+        // Atualize o estado para refletir as alterações
+        setUsers(users.filter(user => user.id !== userId));
     };
 
     return (
@@ -55,8 +66,8 @@ const UserList = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {filteredUsers.map(({ name, email, user_type }) => (
-                    <tr key={email}>
+                {filteredUsers.map(({ id, name, email, user_type }) => (
+                    <tr key={id}>
                         <td>{name}</td>
                         <td>{email}</td>
                         <td>{user_type}</td>
@@ -72,6 +83,7 @@ const UserList = () => {
                                 title="Deletar"
                                 variant="action"
                                 className="p-0"
+                                onClick={() => handleDeleteUser(id)}
                             />
                         </td>
                     </tr>

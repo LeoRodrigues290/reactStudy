@@ -100,7 +100,7 @@ function UserConfig(props) {
                         !formData.confirmPassword
                     }
                 >
-                    Cadastrar
+                    Atualizar
                 </Button>
             </Form.Group>
         </Form>

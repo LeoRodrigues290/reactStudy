@@ -5,6 +5,7 @@ import {getFirestore, collection, getDocs, doc, deleteDoc} from 'firebase/firest
 import {getAuth, deleteUser} from 'firebase/auth';
 import {initializeApp} from 'firebase/app';
 import AddUser from './AddUser';
+import UserConfig from './UserConfig';
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -23,6 +24,7 @@ const UserList = () => {
     const [users, setUsers] = useState([]);
     const filteredUsers = users.filter(user => user.email !== "leo@allomni.com.br");
     const [showAddUser, setShowAddUser] = useState(false);
+    const [showUserConfig, setShowUserConfig] = useState(false);
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -39,6 +41,14 @@ const UserList = () => {
 
     const handleCloseAddUser = () => {
         setShowAddUser(false);
+    };
+
+    const handleUserConfig = () => {
+        setShowUserConfig(true);
+    };
+
+    const handleCloserUserConfig = () => {
+        setShowUserConfig(false);
     };
 
     const handleDeleteUser = async (userId) => {
@@ -76,6 +86,7 @@ const UserList = () => {
                                 title="Editar"
                                 variant="action"
                                 className="p-0 me-2"
+                                onClick={handleUserConfig}
                             />
                             <ActionButton
                                 icon="trash-alt"
@@ -95,6 +106,15 @@ const UserList = () => {
                 </Modal.Header>
                 <Modal.Body>
                     <AddUser/>
+                </Modal.Body>
+            </Modal>
+
+            <Modal show={showUserConfig} onHide={handleCloserUserConfig}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Editar Usuário</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <UserConfig/>
                 </Modal.Body>
             </Modal>
         </>

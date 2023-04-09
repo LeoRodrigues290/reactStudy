@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Table, Modal, Button } from 'react-bootstrap';
+import React, {useState, useEffect} from 'react';
+import {Table, Modal, Button} from 'react-bootstrap';
 import ActionButton from 'components/common/ActionButton';
-import { getFirestore, collection, getDocs, doc, deleteDoc } from 'firebase/firestore';
-import { getAuth, deleteUser } from 'firebase/auth';
-import { initializeApp } from 'firebase/app';
+import {getFirestore, collection, getDocs, doc, deleteDoc} from 'firebase/firestore';
+import {getAuth, deleteUser} from 'firebase/auth';
+import {initializeApp} from 'firebase/app';
 import AddUser from './AddUser';
 
 const firebaseConfig = {
@@ -27,10 +27,9 @@ const UserList = () => {
     useEffect(() => {
         const fetchUsers = async () => {
             const querySnapshot = await getDocs(collection(db, 'users'));
-            const users = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+            const users = querySnapshot.docs.map((doc) => ({id: doc.id, ...doc.data()}));
             setUsers(users);
         };
-
         fetchUsers();
     }, []);
 
@@ -66,7 +65,7 @@ const UserList = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {filteredUsers.map(({ id, name, email, user_type }) => (
+                {filteredUsers.map(({id, name, email, user_type}) => (
                     <tr key={id}>
                         <td>{name}</td>
                         <td>{email}</td>
@@ -95,7 +94,7 @@ const UserList = () => {
                     <Modal.Title>Adicionar Usuário</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <AddUser />
+                    <AddUser/>
                 </Modal.Body>
             </Modal>
         </>

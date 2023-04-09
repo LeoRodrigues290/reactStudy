@@ -22,7 +22,10 @@ const auth = getAuth();
 
 const UserList = () => {
     const [users, setUsers] = useState([]);
-    const filteredUsers = users.filter(user => user.email !== "leo@allomni.com.br");
+    const removeUserByEmail = (email) => {
+        return users.filter(user => user.email !== email);
+    }
+    const filteredUsers = removeUserByEmail("leo@allomni.com.br");
     const [showAddUser, setShowAddUser] = useState(false);
     const [showUserConfig, setShowUserConfig] = useState(false);
 

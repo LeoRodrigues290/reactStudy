@@ -25,12 +25,13 @@ const ListProjects = ({ projectId }) => {
         const getProjects = async () => {
             const projectRef = collection(db, 'projects');
             try {
-                const querySnapshot = await getDocs(projectRef);
                 const projects = [];
-                querySnapshot.forEach((doc) => {
-                    projects.push({ id: doc.id, ...doc.data() });
+                projectRef.onSnapshot((querySnapshot) => {
+                    querySnapshot.forEach((doc) => {
+                        projects.push({ id: doc.id, ...doc.data() });
+                    });
+                    setProjectData(projects);
                 });
-                setProjectData(projects);
             } catch (error) {
                 console.log('Erro ao obter projetos:', error);
             }

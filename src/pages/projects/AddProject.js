@@ -26,7 +26,12 @@ function AddProject(props) {
         const loadUsers = async () => {
             const usersQuery = query(collection(db, 'users'));
             const usersSnapshot = await getDocs(usersQuery);
-            const users = usersSnapshot.docs.map(doc => ({ value: doc.id, label: doc.data().name }));
+            const users = usersSnapshot.docs.reduce((accumulator, doc) => {
+                accumulator.push({ value: doc.id, label: doc.data().name });
+                return accumulator;
+            }, []);
+            setUserOptions(users);
+
             setUserOptions(users);
         };
         loadUsers();

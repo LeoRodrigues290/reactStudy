@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import { Form, Button } from 'react-bootstrap';
-import { initializeApp } from 'firebase/app';
-import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { getFirestore, doc, setDoc } from 'firebase/firestore';
-
+import {Form, Button} from 'react-bootstrap';
+import {initializeApp} from 'firebase/app';
+import {getFirestore} from 'firebase/firestore';
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -16,14 +14,11 @@ const firebaseConfig = {
 };
 
 initializeApp(firebaseConfig);
-const auth = getAuth();
 const db = getFirestore();
 
 function AddProject(props) {
     const [name, setName] = useState('');
-    const [projectManager, setProjectManager] = useState('');
-    const [clienteManager, setClienteManager] = useState([]);
-    const [analyst, setAnalyst] = useState([]);
+    const [selectedUsers, setSelectedUsers] = useState([]);
 
     const handleNameChange = (event) => {
         setName(event.target.value);
@@ -43,14 +38,12 @@ function AddProject(props) {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const db = firebase.firestore();
         try {
             await db.collection('projects').add({
                 name,
-                project_manager: db.doc(`managers/${projectManager}`),
-                cliente_manager: clienteManager.map((id) => db.doc(`managers/${id}`)),
-                analyst: analyst.map((id) => db.doc(`analysts/${id}`)),
+                user_project: selectedUsers.map((id) => db.doc(`users/${id}`)),
             });
+
             props.onSuccess();
         } catch (error) {
             console.log(error);
@@ -62,20 +55,9 @@ function AddProject(props) {
         <Form onSubmit={handleSubmit}>
             <Form.Group>
                 <Form.Label>Nome do Projeto</Form.Label>
-                <Form.Control type="text" placeholder="Nome" value={name} onChange={handleNameChange} required />
+                <Form.Control type="text" placeholder="Nome" value={name} onChange={handleNameChange} required/>
             </Form.Group>
-            <Form.Group>
-                <Form.Label>ID do Gerente de Projeto</Form.Label>
-                <Form.Control type="text" placeholder="Gerente de Projeto" value={projectManager} onChange={handleProjectManagerChange} required />
-            </Form.Group>
-            <Form.Group>
-                <Form.Label>IDs dos Gerentes de Cliente (separados por vírgula)</Form.Label>
-                <Form.Control type="text" placeholder="Gerentes de Cliente" value={clienteManager} onChange={handleClienteManagerChange} />
-            </Form.Group>
-            <Form.Group>
-                <Form.Label>IDs dos Analistas (separados por vírgula)</Form.Label>
-                <Form.Control type="text" placeholder="Analistas" value={analyst} onChange={handleAnalystChange} />
-            </Form.Group>
+
             <Button variant="primary" type="submit">
                 Registrar
             </Button>
@@ -84,8 +66,8 @@ function AddProject(props) {
 }
 
 AddProject.propTypes = {
-    onSuccess: PropTypes.func.isRequired,
-    onError: PropTypes.func.isRequired,
+    onSuccess: PropTypes.func,
+    onError: PropTypes.func,
 };
 
 export default AddProject;

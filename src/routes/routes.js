@@ -10,6 +10,13 @@ export const dashboardRoutes = {
       to: '/',
       exact: true,
       active: true,
+    },
+    {
+      name: 'Usuários',
+      icon: 'users',
+      to: '/usuarios',
+      exact: true,
+      active: true,
     }
     ]
 };

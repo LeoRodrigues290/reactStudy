@@ -204,6 +204,7 @@ import Reports from 'components/app/support-desk/reports/Reports';
 //Allomni Imports
 import PlanejamentoAnual from "components/dados/PlanejamentoAnual";
 import AddProject from "pages/projects/AddProject";
+import UserList from "pages/users/UserList"
 
 const Layout = () => {
   const HTMLClassList = document.getElementsByTagName('html')[0].classList;
@@ -409,6 +410,7 @@ const Layout = () => {
           {/*Allomni*/}
           <Route path="dados/planejamento-anual" element={<PlanejamentoAnual />} />
           <Route path="projects/add-project" element={<AddProject />} />
+          <Route path="usuarios" element={<UserList />} />
 
           {/*App*/}
           <Route path="app/calendar" element={<Calendar />} />

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import { getFirestore, doc, getDoc } from 'firebase/firestore';
-import { initializeApp } from 'firebase/app';
+import {getFirestore, doc, getDoc} from 'firebase/firestore';
+import {initializeApp} from 'firebase/app';
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -15,11 +15,13 @@ const firebaseConfig = {
 initializeApp(firebaseConfig);
 const db = getFirestore();
 
-const Project = ({ projectId }) => {
+const Project = ({projectId}) => {
     const [project, setProject] = useState(null);
 
     useEffect(() => {
         const getProjectData = async () => {
+            if (!projectId) return;
+
             const projectRef = doc(db, 'projects', projectId);
 
             try {
@@ -36,22 +38,22 @@ const Project = ({ projectId }) => {
         getProjectData();
     }, [projectId]);
 
-    if (!project) {
-        return <div>Carregando projeto...</div>;
-    }
-
-    const { name, description } = project;
-
     return (
         <div>
-            <h1>{name}</h1>
-            <p>{description}</p>
+            {project ? (
+                <>
+                    <h1>{project.name}</h1>
+                    <p>{project.description}</p>
+                </>
+            ) : (
+                <div>Carregando projeto...</div>
+            )}
         </div>
     );
 };
 
 Project.propTypes = {
-    projectId: PropTypes.string.isRequired,
+    projectId: PropTypes.string,
 };
 
 export default Project;

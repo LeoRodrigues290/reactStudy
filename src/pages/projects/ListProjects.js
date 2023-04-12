@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import { Card, Button, Modal, Row, Col } from 'react-bootstrap';
-import { getFirestore, collection, getDocs } from 'firebase/firestore';
-import { initializeApp } from 'firebase/app';
+import {Card, Button, Modal, Row, Col} from 'react-bootstrap';
+import {getFirestore, collection, getDocs} from 'firebase/firestore';
+import {initializeApp} from 'firebase/app';
 import AddProject from './AddProject';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -18,7 +18,7 @@ const firebaseConfig = {
 initializeApp(firebaseConfig);
 const db = getFirestore();
 
-const ListProjects = () => {
+const ListProjects = ({name, description}) => {
     const [projectData, setProjectData] = useState(null);
     const [showAddProject, setShowAddProject] = useState(false);
     const navigate = useNavigate();
@@ -30,7 +30,7 @@ const ListProjects = () => {
                 const projects = [];
                 const querySnapshot = await getDocs(projectRef);
                 querySnapshot.forEach((doc) => {
-                    projects.push({ id: doc.id, ...doc.data() });
+                    projects.push({id: doc.id, ...doc.data()});
                 });
                 setProjectData(projects);
             } catch (error) {
@@ -77,7 +77,7 @@ const ListProjects = () => {
                     <Modal.Title>Adicionar Projeto</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <AddProject />
+                    <AddProject/>
                 </Modal.Body>
             </Modal>
         </>
@@ -85,7 +85,8 @@ const ListProjects = () => {
 };
 
 ListProjects.propTypes = {
-    goToProjectPage: PropTypes.func.isRequired,
+    name: PropTypes.string,
+    description: PropTypes.string,
 };
 
 export default ListProjects;

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Table, Modal, Button} from 'react-bootstrap';
+import {Card, Table, Modal, Button} from 'react-bootstrap';
 import ActionButton from 'components/common/ActionButton';
 import {getFirestore, collection, getDocs, doc, deleteDoc} from 'firebase/firestore';
 import {getAuth, deleteUser} from 'firebase/auth';
@@ -66,43 +66,45 @@ const UserList = () => {
     return (
         <>
             <Button onClick={handleAddUserClick}>Adicionar Usuário</Button>
-            <Table responsive>
-                <thead>
-                <tr>
-                    <th scope="col">Nome</th>
-                    <th scope="col">E-mail</th>
-                    <th scope="col">Tipo de Usuário</th>
-                    <th className="text-end" scope="col">
-                        Actions
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                {filteredUsers.map(({id, name, email, user_type}) => (
-                    <tr key={id}>
-                        <td>{name}</td>
-                        <td>{email}</td>
-                        <td>{user_type}</td>
-                        <td className="text-end">
-                            <ActionButton
-                                icon="edit"
-                                title="Editar"
-                                variant="action"
-                                className="p-0 me-2"
-                                onClick={handleUserConfig}
-                            />
-                            <ActionButton
-                                icon="trash-alt"
-                                title="Deletar"
-                                variant="action"
-                                className="p-0"
-                                onClick={() => handleDeleteUser(id)}
-                            />
-                        </td>
+            <Card className="mt-4">
+                <Table responsive>
+                    <thead>
+                    <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col">E-mail</th>
+                        <th scope="col">Tipo de Usuário</th>
+                        <th className="text-end" scope="col">
+                            Actions
+                        </th>
                     </tr>
-                ))}
-                </tbody>
-            </Table>
+                    </thead>
+                    <tbody>
+                    {filteredUsers.map(({id, name, email, user_type}) => (
+                        <tr key={id}>
+                            <td>{name}</td>
+                            <td>{email}</td>
+                            <td>{user_type}</td>
+                            <td className="text-end">
+                                <ActionButton
+                                    icon="edit"
+                                    title="Editar"
+                                    variant="action"
+                                    className="p-0 me-2"
+                                    onClick={handleUserConfig}
+                                />
+                                <ActionButton
+                                    icon="trash-alt"
+                                    title="Deletar"
+                                    variant="action"
+                                    className="p-0"
+                                    onClick={() => handleDeleteUser(id)}
+                                />
+                            </td>
+                        </tr>
+                    ))}
+                    </tbody>
+                </Table>
+            </Card>
             <Modal show={showAddUser} onHide={handleCloseAddUser}>
                 <Modal.Header closeButton>
                     <Modal.Title>Adicionar Usuário</Modal.Title>

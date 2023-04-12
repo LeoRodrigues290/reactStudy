@@ -205,6 +205,7 @@ import Reports from 'components/app/support-desk/reports/Reports';
 import PlanejamentoAnual from "components/dados/PlanejamentoAnual";
 //Projects
 import ListProjects from "pages/projects/ListProjects";
+import Project from "pages/projects/Project";
 //Users
 import UserList from "pages/users/UserList";
 
@@ -412,6 +413,8 @@ const Layout = () => {
           {/*Allomni*/}
           <Route path="dados/planejamento-anual" element={<PlanejamentoAnual />} />
           <Route path="projetos" element={<ListProjects />} />
+          <Route exact path="/projeto/:id" element={<Project />} />
+
           <Route path="usuarios" element={<UserList />} />
 
           {/*App*/}

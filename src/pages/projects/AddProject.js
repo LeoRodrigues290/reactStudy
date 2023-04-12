@@ -1,9 +1,9 @@
-import React, {useState, useEffect} from 'react';
-import PropTypes from 'prop-types';
-import {Form, Button} from 'react-bootstrap';
+import { useState, useEffect } from 'react';
 import Select from 'react-select';
-import {initializeApp} from 'firebase/app';
-import {getFirestore, collection, query, where, getDocs} from 'firebase/firestore';
+import {Form, Button} from 'react-bootstrap';
+import { initializeApp } from 'firebase/app';
+import { getFirestore, collection, addDoc, query, where, getDocs, doc, updateDoc } from 'firebase/firestore';
+import {toast} from "react-toastify";
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -17,48 +17,51 @@ const firebaseConfig = {
 initializeApp(firebaseConfig);
 const db = getFirestore();
 
-function AddProject(props) {
+function AddProject() {
     const [name, setName] = useState('');
-    const [selectedUsers, setSelectedUsers] = useState([]);
+    const [users, setUsers] = useState([]);
     const [userOptions, setUserOptions] = useState([]);
 
     useEffect(() => {
-        const loadUsers = async () => {
-            const usersQuery = query(collection(db, 'users'));
-            const usersSnapshot = await getDocs(usersQuery);
-            const users = usersSnapshot.docs.reduce((accumulator, doc) => {
-                accumulator.push({ value: doc.id, label: doc.data().name });
-                return accumulator;
-            }, []);
-            setUserOptions(users);
-
-            setUserOptions(users);
-        };
-        loadUsers();
+        // Obter a lista de usuários e criar as opções do seletor
+        async function fetchUsers() {
+            const q = query(collection(db, 'users'));
+            const querySnapshot = await getDocs(q);
+            const usersData = querySnapshot.docs.map(doc => ({ id: doc.id, name: doc.data().name }));
+            setUsers(usersData);
+            setUserOptions(usersData.map(user => ({ value: user.id, label: user.name })));
+        }
+        fetchUsers();
     }, []);
 
-    const handleNameChange = (event) => {
-        setName(event.target.value);
-    };
-
-    const handleUserSelect = (selectedOptions) => {
-        setSelectedUsers(selectedOptions.map(option => option.value));
-    };
-
-    const handleSubmit = async (event) => {
+    async function handleSubmit(event) {
         event.preventDefault();
-        try {
-            await db.collection('projects').add({
-                name,
-                user_project: selectedUsers.map((id) => db.doc(`users/${id}`)),
-            });
+        // Criar um novo projeto no Firestore
+        const projectRef = await addDoc(collection(db, 'projects'), { name, users_project: [] });
+        // Adicionar a referência do projeto ao objeto "users_project" de cada usuário selecionado
+        const updatePromises = users.filter(user => user.isSelected).map(async user => {
+            if (!user.users_project) user.users_project = [];
+            const userRef = doc(db, 'users', user.id);
+            await updateDoc(userRef, { users_project: [...user.users_project, projectRef.id] });
+        });
+        await Promise.all(updatePromises);
 
-            props.onSuccess();
-        } catch (error) {
-            console.log(error);
-            props.onError ? props.onError() : null;
-        }
-    };
+        toast.success(`Projeto cadastrado com sucesso!`, {
+            theme: 'colored'
+        });
+        setTimeout(() => {
+            window.location.reload();
+        }, 1000);
+    }
+
+    function handleNameChange(event) {
+        setName(event.target.value);
+    }
+
+    function handleUserSelect(selectedOptions) {
+        const selectedUserIds = selectedOptions.map(option => option.value);
+        setUsers(users.map(user => ({ ...user, isSelected: selectedUserIds.includes(user.id) })));
+    }
 
     return (
         <Form onSubmit={handleSubmit}>
@@ -78,10 +81,5 @@ function AddProject(props) {
         </Form>
     );
 }
-
-AddProject.propTypes = {
-    onSuccess: PropTypes.func,
-    onError: PropTypes.func,
-};
 
 export default AddProject;

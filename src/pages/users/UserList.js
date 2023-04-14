@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import {Card, Table, Modal, Button} from 'react-bootstrap';
+import {Card, Table, Modal, Button, Col, Row, Form, Dropdown} from 'react-bootstrap';
 import ActionButton from 'components/common/ActionButton';
-import {getFirestore, collection, getDocs, doc, deleteDoc} from 'firebase/firestore';
+import {getFirestore, collection, getDocs, doc, deleteDoc, onSnapshot} from 'firebase/firestore';
 import {getAuth, deleteUser} from 'firebase/auth';
 import {initializeApp} from 'firebase/app';
 import AddUser from './AddUser';
@@ -22,27 +22,39 @@ const auth = getAuth();
 
 const UserList = () => {
     const [users, setUsers] = useState([]);
-    const removeUserByEmail = (email) => {
-        return users.filter(user => user.email !== email);
-    }
-    const filteredUsers = removeUserByEmail("leo@allomni.com.br");
+    const [searchTerm, setSearchTerm] = useState("");
+    const filteredUsers = users.filter((user) =>
+        user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.email.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     const [showAddUser, setShowAddUser] = useState(false);
     const [showUserConfig, setShowUserConfig] = useState(false);
 
     useEffect(() => {
-        const fetchUsers = async () => {
-            const querySnapshot = await getDocs(collection(db, 'users'));
-            const users = querySnapshot.docs.map((doc) => ({id: doc.id, ...doc.data()}));
+        const unsubscribe = onSnapshot(collection(db, 'users'), (snapshot) => {
+            const users = snapshot.docs.map((doc) => ({id: doc.id, ...doc.data()}));
             setUsers(users);
+        });
+
+        return () => {
+            unsubscribe();
         };
-        fetchUsers();
     }, []);
+
+    const handleSearchChange = (event) => {
+        setSearchTerm(event.target.value);
+    };
 
     const handleAddUserClick = () => {
         setShowAddUser(true);
     };
 
-    const handleCloseAddUser = () => {
+    const handleAddUserClose = () => {
+        setShowAddUser(false);
+    };
+
+    const handleAddUserSuccess = () => {
         setShowAddUser(false);
     };
 
@@ -65,7 +77,22 @@ const UserList = () => {
 
     return (
         <>
-            <Button onClick={handleAddUserClick}>Adicionar Usuário</Button>
+            <Row className="justify-content-between mt-3">
+                <Col md={6} className="position-relative">
+                    <Form.Control
+                        type="search"
+                        placeholder="Pesquise por nome ou e-mail"
+                        aria-label="Search"
+                        className="ps-4"
+                        value={searchTerm}
+                        onChange={handleSearchChange}
+                    />
+                </Col>
+
+                <Col md={3} className="text-end">
+                    <Button onClick={handleAddUserClick}>Adicionar Usuário</Button>
+                </Col>
+            </Row>
             <Card className="mt-4">
                 <Table responsive>
                     <thead>
@@ -74,7 +101,7 @@ const UserList = () => {
                         <th scope="col">E-mail</th>
                         <th scope="col">Tipo de Usuário</th>
                         <th className="text-end" scope="col">
-                            Actions
+                            Ações
                         </th>
                     </tr>
                     </thead>
@@ -105,12 +132,12 @@ const UserList = () => {
                     </tbody>
                 </Table>
             </Card>
-            <Modal show={showAddUser} onHide={handleCloseAddUser}>
+            <Modal show={showAddUser} onHide={handleAddUserClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Adicionar Usuário</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <AddUser/>
+                    <AddUser onSuccess={handleAddUserSuccess}/>
                 </Modal.Body>
             </Modal>
 

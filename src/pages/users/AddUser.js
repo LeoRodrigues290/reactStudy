@@ -7,7 +7,6 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { getFirestore, doc, setDoc } from 'firebase/firestore';
 
-
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
     authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
@@ -21,7 +20,7 @@ initializeApp(firebaseConfig);
 const auth = getAuth();
 const db = getFirestore();
 
-const AddUser = ({ hasLabel }) => {
+const AddUser = ({ hasLabel, onSuccess }) => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -53,9 +52,7 @@ const AddUser = ({ hasLabel }) => {
             toast.success(`Cadastro realizado com sucesso como ${formData.name}`, {
                 theme: 'colored'
             });
-            setTimeout(() => {
-                window.location.reload();
-            }, 1000);
+            onSuccess();
 
 
         } catch (error) {
@@ -102,7 +99,7 @@ const AddUser = ({ hasLabel }) => {
                         <option value="Administrador">Administrador</option>
                         <option value="Gerente de Projeto">Gerente de Projeto</option>
                         <option value="Gerente de Projeto (Cliente)">Gerente de Projeto (Cliente)</option>
-                        <option value="analyst">Analista</option>
+                        <option value="Analista">Analista</option>
                     </Form.Control>
                 </Form.Group>
 

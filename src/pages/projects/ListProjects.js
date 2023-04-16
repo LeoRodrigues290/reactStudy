@@ -1,57 +1,42 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import {Card, Button, Modal, Row, Col, Form} from 'react-bootstrap';
-import {getFirestore, collection, getDocs} from 'firebase/firestore';
-import {initializeApp} from 'firebase/app';
+import { Card, Button, Modal, Row, Col, Form } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useNavigate } from 'react-router-dom';
 import AddProject from './AddProject';
-import {useNavigate} from 'react-router-dom';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
-const firebaseConfig = {
-    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-    authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-    projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-    storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-    appId: process.env.REACT_APP_FIREBASE_APP_ID,
-};
+////Import do Firebase
+import { collection, getDocs,} from 'firebase/firestore';
+//Importe padrão do Firebase
+import db from '../../firebase';
 
-initializeApp(firebaseConfig);
-const db = getFirestore();
-
-const ListProjects = ({name, description}) => {
+const ListProjects = ({ name, description }) => {
     const [projectData, setProjectData] = useState(null);
     const [showAddProject, setShowAddProject] = useState(false);
     const navigate = useNavigate();
 
+    const handleAddProject = () => setShowAddProject(true);
+    const handleCloseProject = () => setShowAddProject(false);
+    const handleProjectClick = (projectId) =>
+        navigate(`/projeto/${projectId}`);
+
     useEffect(() => {
-        const getProjects = async () => {
-            const projectRef = collection(db, 'projects');
+        const fetchProjects = async () => {
             try {
-                const projects = [];
+                const projectRef = collection(db, 'projects');
                 const querySnapshot = await getDocs(projectRef);
-                querySnapshot.forEach((doc) => {
-                    projects.push({id: doc.id, ...doc.data()});
-                });
+
+                const projects = querySnapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    ...doc.data(),
+                }));
                 setProjectData(projects);
             } catch (error) {
                 console.log('Erro ao obter projetos:', error);
             }
         };
-        getProjects();
-    }, []);
-
-    const handleAddProject = () => {
-        setShowAddProject(true);
-    };
-
-    const handleCloseProject = () => {
-        setShowAddProject(false);
-    };
-
-    const handleProjectClick = (projectId) => {
-        navigate(`/projeto/${projectId}`);
-    };
+        fetchProjects();
+    }, [db]);
 
     return (
         <>
@@ -83,7 +68,10 @@ const ListProjects = ({name, description}) => {
                                 <Card.Body>
                                     <Card.Title as="h5">{project.name}</Card.Title>
                                     <Card.Text>{project.description}</Card.Text>
-                                    <Button onClick={() => handleProjectClick(project.id)} className="text-white">
+                                    <Button
+                                        onClick={() => handleProjectClick(project.id)}
+                                        className="text-white"
+                                    >
                                         Ver Projeto
                                     </Button>
                                 </Card.Body>

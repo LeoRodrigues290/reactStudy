@@ -1,7 +1,11 @@
-import React, {useState, useEffect} from 'react';
-import PropTypes from 'prop-types';
-import {getFirestore, doc, getDoc} from 'firebase/firestore';
-import {initializeApp} from 'firebase/app';
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import {
+    getFirestore,
+    doc,
+    getDoc,
+} from "firebase/firestore";
+import { initializeApp } from "firebase/app";
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -13,25 +17,27 @@ const firebaseConfig = {
 };
 
 initializeApp(firebaseConfig);
+
 const db = getFirestore();
 
-const Project = ({projectId}) => {
+const Project = ({ projectId }) => {
     const [project, setProject] = useState(null);
 
     useEffect(() => {
         const getProjectData = async () => {
             if (!projectId) return;
 
-            const projectRef = doc(db, 'projects', projectId);
-
+            const projectRef = doc(db, "projects", projectId);
             try {
                 const docSnapshot = await getDoc(projectRef);
-                if (docSnapshot.exists()) {
-                    const projectData = docSnapshot.data();
-                    setProject(projectData);
+                if (!docSnapshot.exists()) {
+                    throw new Error(`O projeto com id ${projectId} não existe.`);
                 }
+                const projectData = docSnapshot.data();
+                setProject(projectData);
             } catch (error) {
-                console.log('Erro ao obter projeto:', error);
+                console.log(`Erro ao obter projeto ${projectId}:`, error);
+                setProject(null);
             }
         };
 

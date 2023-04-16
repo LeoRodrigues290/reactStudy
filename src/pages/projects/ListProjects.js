@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {Card, Button, Modal, Row, Col} from 'react-bootstrap';
+import {Card, Button, Modal, Row, Col, Form} from 'react-bootstrap';
 import {getFirestore, collection, getDocs} from 'firebase/firestore';
 import {initializeApp} from 'firebase/app';
 import AddProject from './AddProject';
 import {useNavigate} from 'react-router-dom';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -54,7 +55,26 @@ const ListProjects = ({name, description}) => {
 
     return (
         <>
-            <Button onClick={handleAddProject}>Adicionar Projeto</Button>
+            <Row className="justify-content-between mt-3">
+                <Col md={5} className="position-relative">
+                    <Form.Control
+                        type="search"
+                        placeholder="Pesquise o nome do projeto"
+                        aria-label="Search"
+                        className="ps-4"
+                    />
+                </Col>
+
+                <Col md={3} className="text-end">
+                    <Button onClick={handleAddProject}>
+                        <FontAwesomeIcon
+                            icon="plus"
+                            className="text-400 text-white me-2"
+                        />
+                        Adicionar Projeto
+                    </Button>
+                </Col>
+            </Row>
             <Row className="g-3">
                 {projectData ? (
                     projectData.map((project) => (

@@ -590,46 +590,6 @@ const Layout = () => {
             element={<ComboNavbar />}
           />
 
-          {/*Utilities*/}
-          <Route path="utilities/borders" element={<Borders />} />
-          <Route path="utilities/colors" element={<Colors />} />
-          <Route path="utilities/colored-links" element={<ColoredLinks />} />
-          <Route path="utilities/display" element={<Display />} />
-          <Route path="utilities/visibility" element={<Visibility />} />
-          <Route path="utilities/stretched-link" element={<StretchedLink />} />
-          <Route path="utilities/stretched-link" element={<StretchedLink />} />
-          <Route path="utilities/float" element={<Float />} />
-          <Route path="utilities/position" element={<Position />} />
-          <Route path="utilities/spacing" element={<Spacing />} />
-          <Route path="utilities/sizing" element={<Sizing />} />
-          <Route
-            path="utilities/text-truncation"
-            element={<TextTruncation />}
-          />
-          <Route path="utilities/typography" element={<Typography />} />
-          <Route path="utilities/vertical-align" element={<VerticalAlign />} />
-          <Route path="utilities/flex" element={<Flex />} />
-          <Route path="utilities/grid" element={<Grid />} />
-          <Route path="utilities/scroll-bar" element={<Scrollbar />} />
-
-          <Route path="widgets" element={<Widgets />} />
-
-          {/*Documentation*/}
-          <Route
-            path="documentation/getting-started"
-            element={<GettingStarted />}
-          />
-          <Route
-            path="documentation/configuration"
-            element={<Configuration />}
-          />
-          <Route path="documentation/styling" element={<Styling />} />
-          <Route path="documentation/dark-mode" element={<DarkMode />} />
-          <Route path="documentation/plugin" element={<Plugins />} />
-          <Route path="documentation/faq" element={<Faq />} />
-          <Route path="documentation/design-file" element={<DesignFile />} />
-          <Route path="changelog" element={<Changelog />} />
-          <Route path="authentication-modal" element={<ModalAuth />} />
         </Route>
 
         {/* //--- MainLayout end  */}

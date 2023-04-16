@@ -6,6 +6,7 @@ import {getAuth, deleteUser} from 'firebase/auth';
 import {initializeApp} from 'firebase/app';
 import AddUser from './AddUser';
 import UserConfig from './UserConfig';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -30,6 +31,8 @@ const UserList = () => {
 
     const [showAddUser, setShowAddUser] = useState(false);
     const [showUserConfig, setShowUserConfig] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [userToDelete, setUserToDelete] = useState("");
 
     useEffect(() => {
         const unsubscribe = onSnapshot(collection(db, 'users'), (snapshot) => {
@@ -66,19 +69,27 @@ const UserList = () => {
         setShowUserConfig(false);
     };
 
-    const handleDeleteUser = async (userId) => {
+    const handleDeleteUser = (userId) => {
+        setShowDeleteModal(true);
+        setUserToDelete(userId);
+    };
+
+    const handleDeleteConfirmed = async (userId) => {
         // Deletar usuário do Firestore
         await deleteDoc(doc(db, 'users', userId));
         // Deletar usuário do Firebase Authentication
         await deleteUser(auth.currentUser);
         // Atualize o estado para refletir as alterações
         setUsers(users.filter(user => user.id !== userId));
+        // Configurar os estados showDeleteModal e userToDelete como false e vazio, respectivamente
+        setShowDeleteModal(false);
+        setUserToDelete("");
     };
 
     return (
         <>
             <Row className="justify-content-between mt-3">
-                <Col md={6} className="position-relative">
+                <Col md={5} className="position-relative">
                     <Form.Control
                         type="search"
                         placeholder="Pesquise por nome ou e-mail"
@@ -90,10 +101,16 @@ const UserList = () => {
                 </Col>
 
                 <Col md={3} className="text-end">
-                    <Button onClick={handleAddUserClick}>Adicionar Usuário</Button>
+                    <Button onClick={handleAddUserClick}>
+                        <FontAwesomeIcon
+                            icon="user-plus"
+                            className="text-400 text-white me-2 search-box-icon"
+                        />
+                        Adicionar Usuário
+                    </Button>
                 </Col>
             </Row>
-            <Card className="mt-4">
+            <Card className="mt-3">
                 <Table responsive>
                     <thead>
                     <tr>
@@ -149,6 +166,27 @@ const UserList = () => {
                     <UserConfig/>
                 </Modal.Body>
             </Modal>
+
+            <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Confirmar exclusão de usuário</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    Tem certeza de que deseja excluir este usuário?
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>
+                        Cancelar
+                    </Button>
+                    <Button variant="danger" onClick={() => {
+                        handleDeleteConfirmed(userToDelete);
+                        setShowDeleteModal(false);
+                    }}>
+                        Excluir
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
         </>
     );
 };

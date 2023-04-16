@@ -66,7 +66,7 @@ const ListProjects = ({name, description}) => {
                 </Col>
 
                 <Col md={3} className="text-end">
-                    <Button onClick={handleAddProject}>
+                    <Button onClick={handleAddProject} className="text-white">
                         <FontAwesomeIcon
                             icon="plus"
                             className="text-400 text-white me-2"
@@ -83,7 +83,9 @@ const ListProjects = ({name, description}) => {
                                 <Card.Body>
                                     <Card.Title as="h5">{project.name}</Card.Title>
                                     <Card.Text>{project.description}</Card.Text>
-                                    <Button onClick={() => handleProjectClick(project.id)}>Ver Projeto</Button>
+                                    <Button onClick={() => handleProjectClick(project.id)} className="text-white">
+                                        Ver Projeto
+                                    </Button>
                                 </Card.Body>
                             </Card>
                         </Col>

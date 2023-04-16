@@ -101,7 +101,7 @@ const UserList = () => {
                 </Col>
 
                 <Col md={3} className="text-end">
-                    <Button onClick={handleAddUserClick}>
+                    <Button onClick={handleAddUserClick} className="text-white">
                         <FontAwesomeIcon
                             icon="user-plus"
                             className="text-400 text-white me-2 search-box-icon"

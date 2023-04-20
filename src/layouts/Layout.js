@@ -411,7 +411,6 @@ const Layout = () => {
           <Route path="maps/leaflet-map" element={<LeafletMapExample />} />
 
           {/*Allomni*/}
-          <Route path="dados/planejamento-anual" element={<PlanejamentoAnual />} />
           <Route path="projetos" element={<ListProjects />} />
           <Route exact path="/projeto/:id" element={<Project />} />
 

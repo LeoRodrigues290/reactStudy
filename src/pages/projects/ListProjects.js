@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate } from 'react-router-dom';
 import AddProject from './AddProject';
 
-////Import do Firebase
+//Funções específicas do Firebase
 import { collection, getDocs,} from 'firebase/firestore';
 //Importe padrão do Firebase
 import db from '../../firebase';
@@ -50,7 +50,7 @@ const ListProjects = ({ name, description }) => {
                     />
                 </Col>
 
-                <Col md={3} className="text-end">
+                <Col md={4} className="text-end">
                     <Button onClick={handleAddProject} className="text-white">
                         <FontAwesomeIcon
                             icon="plus"

@@ -5,7 +5,7 @@ import AddUser from './AddUser';
 import UserConfig from './UserConfig';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
-//Importe funções específicas do Firebase
+//Funções específicas do Firebase
 import {getFirestore, collection, getDocs, doc, deleteDoc, onSnapshot} from 'firebase/firestore';
 import {getAuth, deleteUser} from 'firebase/auth';
 //Importe padrão do Firebase
@@ -92,7 +92,7 @@ const UserList = () => {
                     />
                 </Col>
 
-                <Col md={3} className="text-end">
+                <Col md={4} className="text-end">
                     <Button onClick={handleAddUserClick} className="text-white">
                         <FontAwesomeIcon
                             icon="user-plus"

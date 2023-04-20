@@ -5,6 +5,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Flex from './Flex';
 import classNames from 'classnames';
 
+//Importe padrão do Firebase
+import db from '../../firebase';
+
 const Avatar = ({
   size,
   rounded,

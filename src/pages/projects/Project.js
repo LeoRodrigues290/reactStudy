@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useParams } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
 import db from '../../firebase';
 
-const Project = ({ projectId }) => {
+const Project = () => {
+    const { projectId } = useParams();
     const [project, setProject] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);

@@ -69,6 +69,7 @@
     "react-use-scrollspy": "^3.0.2",
     "simplebar-react": "^2.4.1",
     "slick-carousel": "^1.8.1",
+    "slugify": "^1.6.6",
     "uuid": "^8.3.2",
     "video.js": "^7.14.3",
     "web-vitals": "^1.1.2",

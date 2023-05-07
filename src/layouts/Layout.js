@@ -202,10 +202,10 @@ import QuickLinks from 'components/app/support-desk/quick-links/QuickLinks';
 import Reports from 'components/app/support-desk/reports/Reports';
 
 //Allomni Imports
-import PlanejamentoAnual from "components/dados/PlanejamentoAnual";
 //Projects
 import ListProjects from "pages/projects/ListProjects";
 import Project from "pages/projects/Project";
+import Accomplished from "pages/projects/forecasting/accomplished/Accomplished";
 //Users
 import UserList from "pages/users/UserList";
 
@@ -413,6 +413,7 @@ const Layout = () => {
           {/*Allomni*/}
           <Route path="projetos" element={<ListProjects />} />
           <Route path="/projeto/:projectId" element={<Project />} />
+          <Route path="projeto/planejado" element={<Accomplished />} />
 
           <Route path="usuarios" element={<UserList />} />
 

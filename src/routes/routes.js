@@ -38,12 +38,12 @@ export const projectRoutes = {
       children: [
         {
           name: 'Planejado',
-          to: '/project/planejado',
+          to: '/projeto/planejado',
           active: true
         },
         {
           name: 'Realizado',
-          to: '/project/realizado',
+          to: '/projeto/realizado',
           active: true
         },
       ]
@@ -51,7 +51,7 @@ export const projectRoutes = {
     {
       name: 'Cockpit',
       icon: 'list',
-      to: '/project/cockpit',
+      to: '/projeto/cockpit',
       active: true
     },
   ]

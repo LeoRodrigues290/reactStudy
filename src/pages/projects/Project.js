@@ -10,32 +10,40 @@ const Project = ({ projectId }) => {
     const [projectData, setProjectData] = useState(null);
 
     useEffect(() => {
-        const fetchProject = async () => {
+        const fetchProjectData = async () => {
             try {
+                // verifica se projectId não está vazio
+                if (!projectId) {
+                    console.log('Nenhum ID do projeto foi passado!');
+                    return;
+                }
                 const projectRef = doc(db, 'projects', projectId);
                 const projectSnapshot = await getDoc(projectRef);
-
+                // verifica se o documento existe
                 if (projectSnapshot.exists()) {
                     setProjectData(projectSnapshot.data());
                 } else {
-                    console.log('O projeto não foi encontrado');
+                    console.log('Projeto não encontrado');
                 }
             } catch (error) {
-                console.log('Erro ao obter o projeto:', error);
+                console.log('Erro ao obter projeto:', error);
             }
         };
-        fetchProject();
-    }, [projectId]);
-
-    if (!projectData) {
-        return <p>Carregando informações do projeto...</p>;
-    }
+        fetchProjectData();
+    }, [db, projectId]);
 
     return (
-        <div>
-            <h1>{projectData.name}</h1>
-            <p>{projectData.description}</p>
-        </div>
+        <>
+            {projectData ? (
+                <div>
+                    <h1>{projectData.name}</h1>
+                    <p>{projectData.description}</p>
+                    <p>{projectData.status}</p>
+                </div>
+            ) : (
+                <p>Carregando projeto...</p>
+            )}
+        </>
     );
 };
 

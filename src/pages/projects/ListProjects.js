@@ -10,7 +10,7 @@ import { collection, getDocs,} from 'firebase/firestore';
 //Importe padrão do Firebase
 import db from '../../firebase';
 
-const ListProjects = ({ name, description }) => {
+const ListProjects = ({ name }) => {
     const [projectData, setProjectData] = useState(null);
     const [showAddProject, setShowAddProject] = useState(false);
     const navigate = useNavigate();
@@ -67,7 +67,6 @@ const ListProjects = ({ name, description }) => {
                             <Card className="my-3">
                                 <Card.Body>
                                     <Card.Title as="h5">{project.name}</Card.Title>
-                                    <Card.Text>{project.description}</Card.Text>
                                     <Button
                                         onClick={() => handleProjectClick(project.id)}
                                         className="text-white"
@@ -96,7 +95,6 @@ const ListProjects = ({ name, description }) => {
 
 ListProjects.propTypes = {
     name: PropTypes.string,
-    description: PropTypes.string,
 };
 
 export default ListProjects;

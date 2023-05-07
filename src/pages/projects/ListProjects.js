@@ -18,8 +18,7 @@ const ListProjects = ({ name, description }) => {
     const handleAddProject = () => setShowAddProject(true);
     const handleCloseProject = () => setShowAddProject(false);
     const handleProjectClick = (projectId) =>
-        navigate(`/projeto/${projectId}`, { state: { projectId } });
-
+        navigate(`/projeto/${project.id}`, { state: { projectId: project.id } });
 
     useEffect(() => {
         const fetchProjects = async () => {
@@ -96,8 +95,8 @@ const ListProjects = ({ name, description }) => {
 };
 
 ListProjects.propTypes = {
-    name: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
+    name: PropTypes.string,
+    description: PropTypes.string,
 };
 
 export default ListProjects;

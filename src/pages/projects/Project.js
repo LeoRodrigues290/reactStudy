@@ -1,54 +1,50 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, {useState, useEffect} from "react";
+import PropTypes from "prop-types";
 
 //Funções específicas do Firebase
-import { doc, getDoc } from 'firebase/firestore';
+import {doc, getDoc} from "firebase/firestore";
 //Importe padrão do Firebase
 import db from '../../firebase';
 
-const Project = ({ projectId }) => {
-    const [projectData, setProjectData] = useState(null);
+const Project = ({projectId}) => {
+    const [project, setProject] = useState(null);
 
     useEffect(() => {
-        const fetchProjectData = async () => {
+        const getProjectData = async () => {
+            if (!projectId) return;
+
+            const projectRef = doc(db, "projects", projectId);
             try {
-                // verifica se projectId não está vazio
-                if (!projectId) {
-                    console.log('Nenhum ID do projeto foi passado!');
-                    return;
+                const docSnapshot = await getDoc(projectRef);
+                if (!docSnapshot.exists()) {
+                    throw new Error(`O projeto com id ${projectId} não existe.`);
                 }
-                const projectRef = doc(db, 'projects', projectId);
-                const projectSnapshot = await getDoc(projectRef);
-                // verifica se o documento existe
-                if (projectSnapshot.exists()) {
-                    setProjectData(projectSnapshot.data());
-                } else {
-                    console.log('Projeto não encontrado');
-                }
+                const projectData = docSnapshot.data();
+                setProject(projectData);
             } catch (error) {
-                console.log('Erro ao obter projeto:', error);
+                console.log(`Erro ao obter projeto ${projectId}:`, error);
+                setProject(null);
             }
         };
-        fetchProjectData();
-    }, [db, projectId]);
+
+        getProjectData();
+    }, [projectId]);
 
     return (
-        <>
-            {projectData ? (
-                <div>
-                    <h1>{projectData.name}</h1>
-                    <p>{projectData.description}</p>
-                    <p>{projectData.status}</p>
-                </div>
+        <div>
+            {project ? (
+                <>
+                    <h1>{project.name}</h1>
+                </>
             ) : (
-                <p>Carregando projeto...</p>
+                <div>Carregando projeto...</div>
             )}
-        </>
+        </div>
     );
 };
 
 Project.propTypes = {
-    projectId: PropTypes.string.isRequired,
+    projectId: PropTypes.string,
 };
 
 export default Project;

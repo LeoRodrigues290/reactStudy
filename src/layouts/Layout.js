@@ -201,6 +201,8 @@ import TicketsPreview from 'components/app/support-desk/tickets-preview/TicketsP
 import QuickLinks from 'components/app/support-desk/quick-links/QuickLinks';
 import Reports from 'components/app/support-desk/reports/Reports';
 
+import PrivateRoute from "../routes/PrivateRoute";
+
 //Allomni Imports
 //Projects
 import ListProjects from "pages/projects/ListProjects";
@@ -411,9 +413,10 @@ const Layout = () => {
           <Route path="maps/leaflet-map" element={<LeafletMapExample />} />
 
           {/*Allomni*/}
-          <Route path="projetos" element={<ListProjects />} />
+          <Route path="projetos" element={<ListProjects />}/>
           <Route path="/projeto/:projectId" element={<Project />} />
           <Route path="projeto/planejado" element={<Accomplished />} />
+          <PrivateRoute path="projeto/planejado" element={<Accomplished />} isAuthenticated={true} />
 
           <Route path="usuarios" element={<UserList />} />
 

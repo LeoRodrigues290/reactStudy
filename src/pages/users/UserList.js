@@ -69,10 +69,19 @@ const UserList = () => {
     const handleDeleteConfirmed = async (userId) => {
         // Deletar usuário do Firestore
         await deleteDoc(doc(db, 'users', userId));
-        // Deletar usuário do Firebase Authentication
-        await deleteUser(auth.currentUser);
+
+        try {
+            // Deletar usuário do Firebase Authentication
+            const user = await auth.getUserByEmail(userToDelete.email);
+            await deleteUser(user);
+
+        } catch (error) {
+            console.error(error);
+        }
+
         // Atualize o estado para refletir as alterações
         setUsers(users.filter(user => user.id !== userId));
+
         // Configurar os estados showDeleteModal e userToDelete como false e vazio, respectivamente
         setShowDeleteModal(false);
         setUserToDelete("");

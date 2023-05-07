@@ -17,7 +17,7 @@ function UserConfig(props) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // Código para atualizar meus dados no firebase
+        // Código para atualizar os dados do usuário no firebase
     };
 
     const { hasLabel } = props;

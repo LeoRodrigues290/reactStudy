@@ -1,43 +1,50 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-
-//Funções específicas do Firebase
-import {doc, getDoc} from 'firebase/firestore';
-//Importe padrão do Firebase
+import { doc, getDoc } from 'firebase/firestore';
 import db from '../../firebase';
 
-const Project = ({projectId}) => {
+const Project = ({ projectId }) => {
     const [project, setProject] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
 
     useEffect(() => {
-        const getProjectData = async () => {
+        const fetchProject = async () => {
             try {
                 const docRef = doc(db, 'projects', projectId);
-                const docSnap = await getDoc(docRef);
+                const docSnapshot = await getDoc(docRef);
 
-                if (docSnap.exists()) {
-                    setProject(docSnap.data());
+                if (docSnapshot.exists()) {
+                    setProject(docSnapshot.data());
                 } else {
-                    console.log('O projeto não foi encontrado!');
+                    setError(true);
                 }
             } catch (error) {
                 console.log('Erro ao obter projeto:', error);
+                setError(true);
+            } finally {
+                setLoading(false);
             }
         };
-        getProjectData();
+
+        fetchProject();
     }, [projectId]);
 
-    if (!project) {
+    if (loading) {
         return <p>Carregando projeto...</p>;
     }
 
-    return (
-        <div>
-            <h2>{project.name}</h2>
-            <p>{project.description}</p>
-        </div>
-    );
+    if (error) {
+        return <p>Ocorreu um erro ao carregar o projeto.</p>;
+    }
 
+    return (
+        <>
+            <h1>{project.name}</h1>
+            <p>{project.description}</p>
+            {/* adicione aqui o resto dos dados que deseja mostrar */}
+        </>
+    );
 };
 
 Project.propTypes = {

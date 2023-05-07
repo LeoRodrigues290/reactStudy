@@ -412,8 +412,7 @@ const Layout = () => {
 
           {/*Allomni*/}
           <Route path="projetos" element={<ListProjects />} />
-          <Route exact path="/projeto/:id" element={<Project />} />
-
+          <Route path="/projeto/:projectId" element={<Project />} />
 
           <Route path="usuarios" element={<UserList />} />
 

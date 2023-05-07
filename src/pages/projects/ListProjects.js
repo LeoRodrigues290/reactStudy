@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import { Card, Button, Modal, Row, Col, Form } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useNavigate } from 'react-router-dom';
+import {Card, Button, Modal, Row, Col, Form} from 'react-bootstrap';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {useNavigate} from 'react-router-dom';
 import AddProject from './AddProject';
 
 //Funções específicas do Firebase
-import { collection, getDocs,} from 'firebase/firestore';
+import {collection, getDocs,} from 'firebase/firestore';
 //Importe padrão do Firebase
 import db from '../../firebase';
 
-const ListProjects = ({ name }) => {
+const ListProjects = ({name}) => {
     const [projectData, setProjectData] = useState(null);
     const [showAddProject, setShowAddProject] = useState(false);
     const navigate = useNavigate();
@@ -67,10 +67,7 @@ const ListProjects = ({ name }) => {
                             <Card className="my-3">
                                 <Card.Body>
                                     <Card.Title as="h5">{project.name}</Card.Title>
-                                    <Button
-                                        onClick={() => handleProjectClick(project.id)}
-                                        className="text-white"
-                                    >
+                                    <Button onClick={() => handleProjectClick(project.id)} className="text-white">
                                         Ver Projeto
                                     </Button>
                                 </Card.Body>

@@ -61,22 +61,18 @@ const ListProjects = ({name}) => {
                 </Col>
             </Row>
             <Row className="g-3">
-                {projectData ? (
-                    projectData.map((project) => (
-                        <Col key={project.id} md={4} xxl={4}>
-                            <Card className="my-3">
-                                <Card.Body>
-                                    <Card.Title as="h5">{project.name}</Card.Title>
-                                    <Button onClick={() => handleProjectClick(project.id)} className="text-white">
-                                        Ver Projeto
-                                    </Button>
-                                </Card.Body>
-                            </Card>
-                        </Col>
-                    ))
-                ) : (
-                    <p>Carregando projetos...</p>
-                )}
+                {projectData && projectData.map((project) => (
+                    <Col key={project.id} md={4} xxl={4}>
+                        <Card className="my-3">
+                            <Card.Body>
+                                <Card.Title as="h5">{project.name}</Card.Title>
+                                <Button onClick={() => handleProjectClick(project.id)} className="text-white">
+                                    Ver Projeto
+                                </Button>
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                ))}
             </Row>
             <Modal show={showAddProject} onHide={handleCloseProject}>
                 <Modal.Header closeButton>

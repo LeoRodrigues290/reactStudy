@@ -9,46 +9,49 @@ const Project = ({ projectId }) => {
     const [error, setError] = useState(false);
 
     useEffect(() => {
+        let isMounted = true;
+
         const fetchProject = async () => {
             try {
                 const docRef = doc(db, 'projects', projectId);
                 const docSnapshot = await getDoc(docRef);
-
-                if (docSnapshot.exists()) {
+                if (isMounted) {
                     setProject(docSnapshot.data());
-                } else {
-                    setError(true);
+                    setLoading(false);
                 }
             } catch (error) {
                 console.log('Erro ao obter projeto:', error);
-                setError(true);
-            } finally {
-                setLoading(false);
+                if (isMounted) {
+                    setError(true);
+                    setLoading(false);
+                }
             }
         };
 
         fetchProject();
+        return () => {
+            isMounted = false;
+        };
     }, [projectId]);
 
-    if (loading) {
-        return <p>Carregando projeto...</p>;
+    if (loading || !project) {
+        return <p>Carregando...</p>;
     }
 
     if (error) {
-        return <p>Ocorreu um erro ao carregar o projeto.</p>;
+        return <p>Ocorreu um erro ao buscar as informações do projeto.</p>;
     }
 
     return (
         <>
             <h1>{project.name}</h1>
             <p>{project.description}</p>
-            {/* adicione aqui o resto dos dados que deseja mostrar */}
         </>
     );
 };
 
 Project.propTypes = {
-    projectId: PropTypes.string.isRequired,
+    projectId: PropTypes.string,
 };
 
 export default Project;

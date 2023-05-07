@@ -1,8 +1,8 @@
-import React, {useState, useEffect} from "react";
-import PropTypes from "prop-types";
+import React, {useState, useEffect} from 'react';
+import PropTypes from 'prop-types';
 
 //Funções específicas do Firebase
-import {doc, getDoc} from "firebase/firestore";
+import {doc, getDoc} from 'firebase/firestore';
 //Importe padrão do Firebase
 import db from '../../firebase';
 
@@ -11,40 +11,37 @@ const Project = ({projectId}) => {
 
     useEffect(() => {
         const getProjectData = async () => {
-            if (!projectId) return;
-
-            const projectRef = doc(db, "projects", projectId);
             try {
-                const docSnapshot = await getDoc(projectRef);
-                if (!docSnapshot.exists()) {
-                    throw new Error(`O projeto com id ${projectId} não existe.`);
+                const docRef = doc(db, 'projects', projectId);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    setProject(docSnap.data());
+                } else {
+                    console.log('O projeto não foi encontrado!');
                 }
-                const projectData = docSnapshot.data();
-                setProject(projectData);
             } catch (error) {
-                console.log(`Erro ao obter projeto ${projectId}:`, error);
-                setProject(null);
+                console.log('Erro ao obter projeto:', error);
             }
         };
-
         getProjectData();
     }, [projectId]);
 
+    if (!project) {
+        return <p>Carregando projeto...</p>;
+    }
+
     return (
         <div>
-            {project ? (
-                <>
-                    <h1>{project.name}</h1>
-                </>
-            ) : (
-                <div>Carregando projeto...</div>
-            )}
+            <h2>{project.name}</h2>
+            <p>{project.description}</p>
         </div>
     );
+
 };
 
 Project.propTypes = {
-    projectId: PropTypes.string,
+    projectId: PropTypes.string.isRequired,
 };
 
 export default Project;

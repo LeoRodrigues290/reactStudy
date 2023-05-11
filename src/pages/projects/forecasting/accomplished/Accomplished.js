@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Container, Row } from 'react-bootstrap';
 
 const Accomplished = () => {

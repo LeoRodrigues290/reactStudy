@@ -207,6 +207,7 @@ import PrivateRoute from "../routes/PrivateRoute";
 //Projects
 import ListProjects from "pages/projects/ListProjects";
 import Project from "pages/projects/Project";
+import UserProfile from "pages/projects/users/UserProfile";
 import Accomplished from "pages/projects/forecasting/accomplished/Accomplished";
 //Users
 import UserList from "pages/users/UserList";
@@ -414,11 +415,14 @@ const Layout = () => {
 
           {/*Allomni*/}
           <Route path="projetos" element={<ListProjects />}/>
+          <Route path="usuarios" element={<UserList />} />
+
           <Route path="/projeto/:projectId" element={<Project />} />
           <Route path="projeto/planejado" element={<Accomplished />} />
-          <PrivateRoute path="projeto/planejado" element={<Accomplished />} isAuthenticated={true} />
+          {/*<PrivateRoute path="projeto/planejado" element={<Accomplished />} isAuthenticated={true} />*/}
+          <Route path="projeto/usuarios" element={<UserList />} />
+          <Route path="projeto/perfil" element={<UserProfile />} />
 
-          <Route path="usuarios" element={<UserList />} />
 
           {/*App*/}
           <Route path="app/calendar" element={<Calendar />} />

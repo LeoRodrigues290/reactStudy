@@ -2,23 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Navigate } from 'react-router-dom';
 
-class PrivateRoute extends Route {
-    render() {
-        const { component: Component, isAuthenticated, ...rest } = this.props;
+function PrivateRoute({ component: Component, isAuthenticated, ...rest }) {
+    const renderComponent = props => {
+        return isAuthenticated ? <Component {...props} /> : (
+            <Navigate
+                to={{
+                    pathname: '/authentication/simple/login',
+                    state: { from: rest.location },
+                }}
+            />
+        );
+    };
 
-        const renderComponent = props => {
-            return isAuthenticated ? <Component {...props} /> : (
-                <Navigate
-                    to={{
-                        pathname: '/authentication/simple/login',
-                        state: { from: rest.location },
-                    }}
-                />
-            );
-        };
-
-        return <Route {...rest} render={renderComponent} />;
-    }
+    return <Route {...rest} element={renderComponent} />;
 }
 
 PrivateRoute.propTypes = {

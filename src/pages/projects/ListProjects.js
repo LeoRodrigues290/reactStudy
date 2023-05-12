@@ -14,6 +14,7 @@ import db from '../../firebase';
 const ListProjects = ({name}) => {
     const [projectData, setProjectData] = useState(null);
     const [showAddProject, setShowAddProject] = useState(false);
+    const [searchValue, setSearchValue] = useState('');
     const navigate = useNavigate();
 
     const handleAddProject = () => setShowAddProject(true);
@@ -31,13 +32,20 @@ const ListProjects = ({name}) => {
                     id: doc.id,
                     ...doc.data(),
                 }));
-                setProjectData(projects);
+
+                // Filtrar os projetos com base no valor de busca
+                const filteredProjects = projects.filter((project) =>
+                    project.name.toLowerCase().includes(searchValue.toLowerCase())
+                );
+
+                setProjectData(filteredProjects);
             } catch (error) {
                 console.log('Erro ao obter projetos:', error);
             }
         };
+
         fetchProjects();
-    }, [db]);
+    }, [db, searchValue]);
 
     return (
         <>
@@ -49,7 +57,10 @@ const ListProjects = ({name}) => {
                         placeholder="Pesquise o nome do projeto"
                         aria-label="Search"
                         className="ps-4"
+                        value={searchValue}
+                        onChange={(e) => setSearchValue(e.target.value)}
                     />
+
                 </Col>
 
                 <Col md={4} className="text-end">

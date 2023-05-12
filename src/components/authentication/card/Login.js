@@ -9,18 +9,18 @@ const Login = () => {
     <AuthCardLayout
       leftSideContent={
         <p className="text-white">
-          Don't have an account?
+         Não tem uma conta?
           <br />
           <Link
             className="text-white text-decoration-underline"
-            to="/authentication/card/register"
+            to="#"
           >
-            Get started!
+            Entre em contato!
           </Link>
         </p>
       }
     >
-      <h3>Account Login</h3>
+      <h3>Login</h3>
       <LoginForm layout="card" hasLabel />
     </AuthCardLayout>
   );

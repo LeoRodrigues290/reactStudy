@@ -24,8 +24,7 @@ const ProfileDropdown = () => {
                         <span>Go Pro</span>
                     </Dropdown.Item>
                     <Dropdown.Divider/>
-                    <Dropdown.Item href="#!">Set status</Dropdown.Item>
-                    <Dropdown.Item as={Link} to="/user/profile">
+                    <Dropdown.Item as={Link} to="/perfil">
                         Meu Perfil
                     </Dropdown.Item>
                     <Dropdown.Divider/>

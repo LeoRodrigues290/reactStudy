@@ -1,80 +1,102 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import firebase from 'firebase/app';
-import 'firebase/firestore';
-import 'firebase/analytics';
+import { useNavigate } from 'react-router-dom';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/database';
 
-const ConnectGA4Button = ({userId}) => {
-    const [isConnected, setConnected] = useState(false);
+const firebaseConfig = {
+    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+    authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.REACT_APP_FIREBASE_APP_ID
+};
 
-    const connectToGoogleAnalytics = async () => {
-        try {
-            const app = firebase.app();
-            const analytics = firebase.analytics(app);
-            await analytics.signInWithGoogle();
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
 
-            const firestore = firebase.firestore(app);
-            await firestore.collection('users').doc(userId).update({
-                googleAnalyticsConnected: true,
-            });
-
-            setConnected(true);
-        } catch (error) {
-            console.error('Erro ao conectar ao Google Analytics:', error);
-        }
-    };
-
-    const disconnectFromGoogleAnalytics = async () => {
-        try {
-            const app = firebase.app();
-            const analytics = firebase.analytics(app);
-            await analytics.signOut();
-
-            const firestore = firebase.firestore(app);
-            await firestore.collection('users').doc(userId).update({
-                googleAnalyticsConnected: false,
-            });
-
-            setConnected(false);
-        } catch (error) {
-            console.error('Erro ao desconectar do Google Analytics:', error);
-        }
-    };
-
+const ConnectGA4Button = () => {
+    const navigate = useNavigate();
+    const [connected, setConnected] = useState(false);
+    const [user, setUser] = useState(firebase.auth().currentUser);
+    let unsubscribe;
 
     useEffect(() => {
-        const checkGoogleAnalyticsConnection = async () => {
+        const checkConnection = async (userId) => {
             try {
-                const firestore = firebase.firestore();
-                const userDoc = await firestore.collection('users').doc(userId).get();
-                const userData = userDoc.data();
-
-                setConnected(!!userData?.googleAnalyticsConnected);
+                const snapshot = await firebase
+                    .database()
+                    .ref(`users/${userId}/googleAnalyticsConnected`)
+                    .once('value');
+                setConnected(snapshot.val() === true);
             } catch (error) {
-                console.error('Erro ao verificar a conexão com o Google Analytics:', error);
+                console.log('Erro ao verificar conexão:', error);
             }
         };
 
-        checkGoogleAnalyticsConnection();
-    }, [userId]);
+        const handleAuthStateChanged = (user) => {
+            if (user) {
+                setUser(user);
+                checkConnection(user.uid);
+            } else {
+                setUser(null);
+                setConnected(false);
+            }
+        };
 
+        unsubscribe = firebase.auth().onAuthStateChanged(handleAuthStateChanged);
+
+        return () => unsubscribe();
+    }, []);
+
+    const handleLogin = () => {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        firebase.auth().signInWithPopup(provider);
+    };
+
+    const handleLogout = () => {
+        firebase.auth().signOut();
+    };
+
+    const handleConnectAnalytics = async () => {
+        setConnected(true);
+        const userId = user.uid;
+        try {
+            await firebase.database().ref(`users/${userId}`).update({
+                googleAnalyticsConnected: true,
+            });
+        } catch (error) {
+            console.log('Erro ao conectar ao Google Analytics:', error);
+        }
+    };
+
+    const handleDisconnectAnalytics = async () => {
+        setConnected(false);
+        const userId = user.uid;
+        try {
+            await firebase.database().ref(`users/${userId}`).update({
+                googleAnalyticsConnected: false,
+            });
+        } catch (error) {
+            console.log('Erro ao desconectar do Google Analytics:', error);
+        }
+    };
 
     return (
         <div>
-            {!isConnected ? (
-                <button onClick={connectToGoogleAnalytics}>Conectar com Google Analytics</button>
-            ) : (
-                <div>
-                    <p>Google Analytics conectado</p>
-                    <button onClick={disconnectFromGoogleAnalytics}>Desconectar conta Google Analytics</button>
-                </div>
+            {user && connected && <p>Google Analytics conectado!</p>}
+            {user && !connected && (
+                <button onClick={handleConnectAnalytics}>Conectar ao Google Analytics</button>
             )}
+            {user && connected && (
+                <button onClick={handleDisconnectAnalytics}>Desconectar do Google Analytics</button>
+            )}
+            {!user && <button onClick={handleLogin}>Entrar com o Google</button>}
+            {user && <button onClick={handleLogout}>Logout</button>}
         </div>
     );
-};
-
-ConnectGA4Button.propTypes = {
-    userId: PropTypes.string.isRequired,
 };
 
 export default ConnectGA4Button;

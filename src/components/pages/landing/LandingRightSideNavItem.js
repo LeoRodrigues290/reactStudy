@@ -9,8 +9,6 @@ import {
   Tooltip,
   Dropdown
 } from 'react-bootstrap';
-import Login from 'components/authentication/simple/Login';
-import Registration from 'components/authentication/simple/Registration';
 import AppContext from 'context/Context';
 
 const LandingRightSideNavItem = () => {

@@ -1,13 +1,10 @@
 import React, { useContext, useEffect } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import AuthSimpleLayout from './AuthSimpleLayout';
 import is from 'is_js';
 import MainLayout from './MainLayout';
-import SettingsToggle from 'components/settings-panel/SettingsToggle';
 import SettingsPanel from 'components/settings-panel/SettingsPanel';
 
 import ErrorLayout from './ErrorLayout';
-import WizardAuth from 'components/authentication/wizard/WizardAuth';
 import Landing from 'components/pages/landing/Landing';
 import { toast, ToastContainer } from 'react-toastify';
 import { CloseButton } from 'components/common/Toast';
@@ -58,33 +55,11 @@ import NavbarDoubleTop from 'components/doc-components/NavbarDoubleTop';
 import ComboNavbar from 'components/doc-components/ComboNavbar';
 import TypedText from 'components/doc-components/TypedText';
 import FileUploader from 'components/doc-components/FileUploader';
-import Borders from 'components/utilities/Borders';
-import Colors from 'components/utilities/Colors';
-import ColoredLinks from 'components/utilities/ColoredLinks';
-import Display from 'components/utilities/Display';
-import Visibility from 'components/utilities/Visibility';
-import StretchedLink from 'components/utilities/StretchedLink';
-import Float from 'components/utilities/Float';
-import Position from 'components/utilities/Position';
-import Spacing from 'components/utilities/Spacing';
-import Sizing from 'components/utilities/Sizing';
-import TextTruncation from 'components/utilities/TextTruncation';
-import Typography from 'components/utilities/Typography';
-import VerticalAlign from 'components/utilities/VerticalAlign';
-import Flex from 'components/utilities/Flex';
-import Grid from 'components/utilities/Grid';
 import WizardForms from 'components/doc-components/WizardForms';
-import GettingStarted from 'components/documentation/GettingStarted';
-import Configuration from 'components/documentation/Configuration';
-import DarkMode from 'components/documentation/DarkMode';
-import Plugins from 'components/documentation/Plugins';
-import Styling from 'components/documentation/Styling';
-import DesignFile from 'components/documentation/DesignFile';
 import Starter from 'components/pages/Starter';
 import AnimatedIcons from 'components/doc-components/AnimatedIcons';
 import DatePicker from 'components/doc-components/DatePicker';
 import FontAwesome from 'components/doc-components/FontAwesome';
-import Changelog from 'components/documentation/change-log/ChangeLog';
 import Analytics from 'components/dashboards/analytics';
 import Crm from 'components/dashboards/crm';
 import Saas from 'components/dashboards/saas';
@@ -98,7 +73,6 @@ import Feed from 'components/app/social/feed/Feed';
 import Placeholder from 'components/doc-components/Placeholder';
 import Lightbox from 'components/doc-components/Lightbox';
 import AdvanceTableExamples from 'components/doc-components/AdvanceTableExamples';
-import ModalAuth from 'components/authentication/modal/ModalAuth';
 import Calendar from 'components/app/calendar/Calendar';
 import FaqAlt from 'components/pages/faq/faq-alt/FaqAlt';
 import FaqBasic from 'components/pages/faq/faq-basic/FaqBasic';
@@ -148,14 +122,12 @@ import HowToUse from 'components/doc-components/charts-example/echarts/HowToUse'
 import GoogleMapExample from 'components/doc-components/GoogleMapExample';
 import LeafletMapExample from 'components/doc-components/LeafletMapExample';
 import CookieNoticeExample from 'components/doc-components/CookieNoticeExample';
-import Scrollbar from 'components/doc-components/Scrollbar';
 import Scrollspy from 'components/doc-components/Scrollspy';
 import ReactIcons from 'components/doc-components/ReactIcons';
 import ReactPlayerExample from 'components/doc-components/ReactPlayerExample';
 import EmojiMartExample from 'components/doc-components/EmojiMart';
 import TreeviewExample from 'components/doc-components/TreeviewExample';
 import Timeline from 'components/doc-components/Timeline';
-import Widgets from 'widgets/Widgets';
 import Ecommerce from 'components/dashboards/e-commerce';
 import Lms from 'components/dashboards/lms';
 import ProjectManagement from 'components/dashboards/project-management';
@@ -163,34 +135,15 @@ import ProjectManagement from 'components/dashboards/project-management';
 import Error404 from 'components/errors/Error404';
 import Error500 from 'components/errors/Error500';
 
-import SimpleLogin from 'components/authentication/simple/Login';
-import SimpleLogout from 'components/authentication/simple/Logout';
-import SimpleRegistration from 'components/authentication/simple/Registration';
-import SimpleForgetPassword from 'components/authentication/simple/ForgetPassword';
-import SimplePasswordReset from 'components/authentication/simple/PasswordReset';
-import SimpleConfirmMail from 'components/authentication/simple/ConfirmMail';
-import SimpleLockScreen from 'components/authentication/simple/LockScreen';
-
 import CardLogin from 'components/authentication/card/Login';
 import Logout from 'components/authentication/card/Logout';
-import CardRegistration from 'components/authentication/card/Registration';
 import CardForgetPassword from 'components/authentication/card/ForgetPassword';
 import CardConfirmMail from 'components/authentication/card/ConfirmMail';
 import CardPasswordReset from 'components/authentication/card/PasswordReset';
 import CardLockScreen from 'components/authentication/card/LockScreen';
 
-import SplitLogin from 'components/authentication/split/Login';
-import SplitLogout from 'components/authentication/split/Logout';
-import SplitRegistration from 'components/authentication/split/Registration';
-import SplitForgetPassword from 'components/authentication/split/ForgetPassword';
-import SplitPasswordReset from 'components/authentication/split/PasswordReset';
-import SplitConfirmMail from 'components/authentication/split/ConfirmMail';
-import SplitLockScreen from 'components/authentication/split/LockScreen';
-
-import Wizard from 'components/wizard/Wizard';
 import Dashboard from 'components/dashboards/default';
 import AppContext from 'context/Context';
-import Faq from 'components/documentation/Faq';
 
 import SupportDesk from 'components/dashboards/support-desk';
 import TableView from 'components/app/support-desk/tickets-layout/TableView';
@@ -201,13 +154,11 @@ import TicketsPreview from 'components/app/support-desk/tickets-preview/TicketsP
 import QuickLinks from 'components/app/support-desk/quick-links/QuickLinks';
 import Reports from 'components/app/support-desk/reports/Reports';
 
-import PrivateRoute from "../routes/PrivateRoute";
-
 //Allomni Imports
 //Projects
 import ListProjects from "pages/projects/ListProjects";
 import Project from "pages/projects/Project";
-import UserProfile from "pages/projects/users/UserProfile";
+import UserProfile from "pages/profile/UserProfile";
 import Accomplished from "pages/projects/forecasting/accomplished/Accomplished";
 //Users
 import UserList from "pages/users/UserList";
@@ -250,41 +201,10 @@ const Layout = () => {
         </Route>
         {/*- ------------- Authentication ---------------------------  */}
 
-        {/*- ------------- simple ---------------------------  */}
-        <Route element={<AuthSimpleLayout />}>
-          <Route path="authentication/simple/login" element={<SimpleLogin />} />
-          <Route
-            path="authentication/simple/register"
-            element={<SimpleRegistration />}
-          />
-          <Route
-            path="authentication/simple/logout"
-            element={<SimpleLogout />}
-          />
-          <Route
-            path="authentication/simple/forgot-password"
-            element={<SimpleForgetPassword />}
-          />
-          <Route
-            path="authentication/simple/reset-password"
-            element={<SimplePasswordReset />}
-          />
-          <Route
-            path="authentication/simple/confirm-mail"
-            element={<SimpleConfirmMail />}
-          />
-          <Route
-            path="authentication/simple/lock-screen"
-            element={<SimpleLockScreen />}
-          />
-        </Route>
 
         {/*- ------------- Card ---------------------------  */}
-        <Route path="authentication/card/login" element={<CardLogin />} />
-        <Route
-          path="authentication/card/register"
-          element={<CardRegistration />}
-        />
+        <Route path="/login" element={<CardLogin />} />
+
         <Route path="authentication/card/logout" element={<Logout />} />
         <Route
           path="authentication/card/forgot-password"
@@ -302,38 +222,6 @@ const Layout = () => {
           path="authentication/card/lock-screen"
           element={<CardLockScreen />}
         />
-
-        {/*- ------------- Split ---------------------------  */}
-
-        <Route path="authentication/split/login" element={<SplitLogin />} />
-        <Route path="authentication/split/logout" element={<SplitLogout />} />
-        <Route
-          path="authentication/split/register"
-          element={<SplitRegistration />}
-        />
-        <Route
-          path="authentication/split/forgot-password"
-          element={<SplitForgetPassword />}
-        />
-        <Route
-          path="authentication/split/reset-password"
-          element={<SplitPasswordReset />}
-        />
-        <Route
-          path="authentication/split/confirm-mail"
-          element={<SplitConfirmMail />}
-        />
-        <Route
-          path="authentication/split/lock-screen"
-          element={<SplitLockScreen />}
-        />
-
-        <Route element={<WizardAuth />}>
-          <Route
-            path="authentication/wizard"
-            element={<Wizard validation={true} />}
-          />
-        </Route>
 
         {/* //--- MainLayout Starts  */}
 
@@ -419,9 +307,8 @@ const Layout = () => {
 
           <Route path="/projeto/:projectId" element={<Project />} />
           <Route path="projeto/planejado" element={<Accomplished />} />
-          {/*<PrivateRoute path="projeto/planejado" element={<Accomplished />} isAuthenticated={true} />*/}
           <Route path="projeto/usuarios" element={<UserList />} />
-          <Route path="projeto/perfil" element={<UserProfile />} />
+          <Route path="perfil" element={<UserProfile />} />
 
 
           {/*App*/}

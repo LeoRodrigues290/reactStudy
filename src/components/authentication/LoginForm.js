@@ -1,26 +1,20 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-
-//Funções específicas do Firebase
-import {getFirestore, collection, getDocs, doc, deleteDoc, onSnapshot} from 'firebase/firestore';
-import {getAuth, signInWithEmailAndPassword} from 'firebase/auth';
-//Importe padrão do Firebase
-import db from '../../firebase';
-
-const auth = getAuth();
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
 const LoginForm = ({ hasLabel, layout, onLoginSuccess }) => {
-    // State
     const [formData, setFormData] = useState({
         email: '',
         password: '',
         remember: false,
     });
 
-    // Handlers
+    const auth = getAuth();
+    const navigate = useNavigate();
+
     const handleLogin = async () => {
         try {
             await signInWithEmailAndPassword(auth, formData.email, formData.password);
@@ -28,7 +22,7 @@ const LoginForm = ({ hasLabel, layout, onLoginSuccess }) => {
                 theme: 'colored',
             });
             setTimeout(function () {
-                window.location.href = '/';
+                navigate('/');
             }, 1000);
             onLoginSuccess(); // Chame a função onLoginSuccess após o login bem-sucedido
         } catch (error) {
@@ -129,14 +123,9 @@ const LoginForm = ({ hasLabel, layout, onLoginSuccess }) => {
 };
 
 LoginForm.propTypes = {
-    layout: PropTypes.string,
     hasLabel: PropTypes.bool,
-    onLoginSuccess: PropTypes.func.isRequired,
-};
-
-LoginForm.defaultProps = {
-    layout: 'simple',
-    hasLabel: false,
+    layout: PropTypes.string,
+    onLoginSuccess: PropTypes.func,
 };
 
 export default LoginForm;

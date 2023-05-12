@@ -163,6 +163,27 @@ import Accomplished from "pages/projects/forecasting/accomplished/Accomplished";
 //Users
 import UserList from "pages/users/UserList";
 
+import { AuthContext } from 'components/authentication/AuthContext';
+
+const PrivateRoute = ({ element: Component, ...rest }) => {
+  const authContext = useContext(AuthContext);
+  const isAuthenticated = authContext && authContext.isAuthenticated;
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      // Redirecionar para a página de login
+      window.location.href = '/login';
+    }
+  }, [isAuthenticated]);
+
+  return isAuthenticated ? (
+      <Route {...rest} element={<Component />} />
+  ) : (
+      <Navigate to="/login" replace />
+  );
+};
+
+
 const Layout = () => {
   const HTMLClassList = document.getElementsByTagName('html')[0].classList;
   const {
@@ -302,14 +323,12 @@ const Layout = () => {
           <Route path="maps/leaflet-map" element={<LeafletMapExample />} />
 
           {/*Allomni*/}
-          <Route path="projetos" element={<ListProjects />}/>
-          <Route path="usuarios" element={<UserList />} />
-
+          <Route path="/projetos" element={<PrivateRoute element={ListProjects} />} />
+          <Route path="/usuarios" element={<UserList />} />
           <Route path="/projeto/:projectId" element={<Project />} />
           <Route path="projeto/planejado" element={<Accomplished />} />
           <Route path="projeto/usuarios" element={<UserList />} />
-          <Route path="perfil" element={<UserProfile />} />
-
+          <Route path="/perfil" element={<UserProfile />} />
 
           {/*App*/}
           <Route path="app/calendar" element={<Calendar />} />

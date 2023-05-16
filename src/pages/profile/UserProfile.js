@@ -1,10 +1,10 @@
 import React from 'react';
-import {Container, Row, Col, Card, Modal} from 'react-bootstrap';
-import PropTypes from 'prop-types';
-import LoginForm from 'components/authentication/LoginForm';
-import AddUser from "../users/AddUser"; // Importe o componente LoginForm aqui
+import {Container, Row, Col, Card, Button, ProgressBar} from 'react-bootstrap';
+import Avatar from "../../components/common/Avatar";
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faBatteryHalf} from '@fortawesome/free-solid-svg-icons'
 
-const UserProfile = ({ user }) => {
+const UserProfile = () => {
     const Breadcrumb = () => {
         return (
             <nav aria-label="breadcrumb" className="bg-light rounded-3 p-3 mb-4">
@@ -15,42 +15,28 @@ const UserProfile = ({ user }) => {
             </nav>
         );
     };
-
     const AvatarCard = () => {
         return (
             <Card className="mb-4">
                 <Card.Body className="text-center">
-                    <Card.Img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar" className="rounded-circle img-fluid" style={{ width: '150px' }} />
-                    <Card.Title className="my-3">{user.name}</Card.Title> {/* Use o nome do usuário aqui */}
+                    <Avatar/>
+                    <Card.Title className="my-3">John Smith</Card.Title>
                     <Card.Text className="text-muted mb-1">Gerente de Projetos</Card.Text>
                 </Card.Body>
             </Card>
         );
     };
 
-    if (!user) { // Se o usuário não estiver autenticado, exiba o formulário de login
-        return (
-            <Modal show>
-                <Modal.Header closeButton>
-                    <Modal.Title>Fazer login</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <LoginForm />
-                </Modal.Body>
-            </Modal>
-        );
-    }
-
     return (
-        <Container py-5>
-            <Row>
-                <Col>
-                    <Breadcrumb />
-                </Col>
-            </Row>
-            <Row>
+        <>
+            <Container py-5>
+                <Row>
+                    <Col>
+                        <Breadcrumb/>
+                    </Col>
+                </Row> <Row>
                 <Col lg={4}>
-                    <AvatarCard />
+                    <AvatarCard/>
                 </Col>
                 <Col lg={8}>
                     <Card mb-4>
@@ -59,20 +45,25 @@ const UserProfile = ({ user }) => {
                                 <Col sm={3}>
                                     <p className="mb-0">Nome</p>
                                 </Col>
-                                <Col sm={9}>
-                                    <p className="text-muted mb-0">{user.name}</p> {/* Use o nome do usuário aqui */}
+                                <Col sm={8}>
+                                    <p className="text-muted mb-0">Johnatan Smith</p>
+                                </Col>
+                                <Col sm={1}>
+                                    <Button variant="primary" className="text-white" title="Editar Informação">
+                                        <FontAwesomeIcon icon="fa-solid fa-pencil" />
+                                    </Button>
                                 </Col>
                             </Row>
-                            <hr />
+                            <hr/>
                             <Row>
                                 <Col sm={3}>
                                     <p className="mb-0">E-mail</p>
                                 </Col>
                                 <Col sm={9}>
-                                    <p className="text-muted mb-0">{user.email}</p> {/* Use o e-mail do usuário aqui */}
+                                    <p className="text-muted mb-0">example@example.com</p>
                                 </Col>
                             </Row>
-                            <hr />
+                            <hr/>
                             <Row>
                                 <Col sm={3}>
                                     <p className="mb-0">Telefone</p>
@@ -81,7 +72,7 @@ const UserProfile = ({ user }) => {
                                     <p className="text-muted mb-0">(097) 234-5678</p>
                                 </Col>
                             </Row>
-                            <hr />
+                            <hr/>
                             <Row>
                                 <Col sm={3}>
                                     <p className="mb-0">Empresa</p>
@@ -94,15 +85,9 @@ const UserProfile = ({ user }) => {
                     </Card>
                 </Col>
             </Row>
-        </Container>
+            </Container>
+        </>
     );
-};
-
-UserProfile.propTypes = {
-    user: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        email: PropTypes.string.isRequired,
-    }),
 };
 
 export default UserProfile;

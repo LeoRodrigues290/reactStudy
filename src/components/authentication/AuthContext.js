@@ -5,11 +5,13 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isLoading, setIsLoading] = useState(true); // Estado de carregamento
     const auth = getAuth();
 
     useEffect(() => {
         const handleAuthStateChanged = (user) => {
             setIsAuthenticated(!!user);
+            setIsLoading(false); // Defina isLoading como false após verificar a autenticação
         };
 
         const unsubscribe = onAuthStateChanged(auth, handleAuthStateChanged);
@@ -19,7 +21,6 @@ export const AuthProvider = ({ children }) => {
 
     const login = async (email, password) => {
         try {
-            // Fazer a autenticação com o Firebase
             await signInWithEmailAndPassword(auth, email, password);
         } catch (error) {
             console.error(error);
@@ -29,7 +30,6 @@ export const AuthProvider = ({ children }) => {
 
     const logout = async () => {
         try {
-            // Fazer logout do usuário no Firebase
             await signOut(auth);
         } catch (error) {
             console.error(error);
@@ -38,8 +38,14 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
-            {children}
+        <AuthContext.Provider value={{isAuthenticated, login, logout}}>
+            {isLoading ? (
+                // Exibir uma mensagem de carregamento ou um indicador enquanto verifica a autenticação
+                <div>Verificando autenticação...</div>
+            ) : (
+                // Renderizar os componentes filhos quando a verificação de autenticação estiver concluída
+                {children}
+            )}
         </AuthContext.Provider>
     );
 };

@@ -1,5 +1,6 @@
-import React, { useContext, useEffect } from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import { Routes, Route, Navigate, useLocation  } from 'react-router-dom';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import is from 'is_js';
 import MainLayout from './MainLayout';
 import SettingsPanel from 'components/settings-panel/SettingsPanel';
@@ -158,31 +159,37 @@ import Reports from 'components/app/support-desk/reports/Reports';
 //Projects
 import ListProjects from "pages/projects/ListProjects";
 import Project from "pages/projects/Project";
+import Cockpit from "pages/projects/cockpit/Cockpit";
 import UserProfile from "pages/profile/UserProfile";
 import Accomplished from "pages/projects/forecasting/accomplished/Accomplished";
 //Users
 import UserList from "pages/users/UserList";
 
-import { AuthContext } from 'components/authentication/AuthContext';
-
-const PrivateRoute = ({ element: Component, ...rest }) => {
-  const authContext = useContext(AuthContext);
-  const isAuthenticated = authContext && authContext.isAuthenticated;
-
-  useEffect(() => {
-    if (!isAuthenticated) {
-      // Redirecionar para a página de login
-      window.location.href = '/login';
-    }
-  }, [isAuthenticated]);
-
-  return isAuthenticated ? (
-      <Route {...rest} element={<Component />} />
-  ) : (
-      <Navigate to="/login" replace />
-  );
+// Função auxiliar para verificar se o usuário está autenticado
+const isUserAuthenticated = () => {
+  const auth = getAuth();
+  return new Promise((resolve) => {
+    onAuthStateChanged(auth, (user) => {
+      resolve(!!user);
+    });
+  });
 };
 
+// Componente de rota protegida
+const ProtectedRoute = ({ element: Element, ...rest }) => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const checkAuthentication = async () => {
+      const authenticated = await isUserAuthenticated();
+      setIsAuthenticated(authenticated);
+    };
+
+    checkAuthentication();
+  }, []);
+
+  return isAuthenticated ? <Route {...rest} element={Element} /> : <Navigate to="/login" />;
+};
 
 const Layout = () => {
   const HTMLClassList = document.getElementsByTagName('html')[0].classList;
@@ -323,12 +330,14 @@ const Layout = () => {
           <Route path="maps/leaflet-map" element={<LeafletMapExample />} />
 
           {/*Allomni*/}
-          <Route path="/projetos" element={<PrivateRoute element={ListProjects} />} />
+          <Route path="/projetos" element={<ListProjects />} />
+
           <Route path="/usuarios" element={<UserList />} />
           <Route path="/projeto/:projectId" element={<Project />} />
           <Route path="projeto/planejado" element={<Accomplished />} />
           <Route path="projeto/usuarios" element={<UserList />} />
           <Route path="/perfil" element={<UserProfile />} />
+          <Route path="/projeto/cockpit" element={<Cockpit />} />
 
           {/*App*/}
           <Route path="app/calendar" element={<Calendar />} />

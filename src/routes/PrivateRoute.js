@@ -1,28 +1,32 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Route, Navigate } from 'react-router-dom';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
-function PrivateRoute({ component: Component, isAuthenticated, ...rest }) {
-    const renderComponent = props => {
-        return isAuthenticated ? <Component {...props} /> : (
-            <Navigate
-                to={{
-                    pathname: '/authentication/simple/login',
-                    state: { from: rest.location },
-                }}
-            />
-        );
-    };
+const PrivateRoute = ({ element: Component, ...rest }) => {
+    const auth = getAuth();
+    const [user, setUser] = React.useState(null);
+    const [isLoading, setLoading] = React.useState(true);
 
-    return <Route {...rest} element={renderComponent} />;
-}
+    React.useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            setUser(user);
+            setLoading(false);
+        });
 
-PrivateRoute.propTypes = {
-    component: PropTypes.elementType,
-    isAuthenticated: PropTypes.bool,
-    location: PropTypes.shape({
-        pathname: PropTypes.string,
-    }).isRequired,
+        return () => unsubscribe();
+    }, [auth]);
+
+    if (isLoading) {
+        // Aqui você pode exibir um componente de carregamento enquanto verifica a autenticação do usuário
+        return <div>Loading...</div>;
+    }
+
+    return (
+        <Route
+            {...rest}
+            element={user ? <Component /> : <Navigate to="/login" replace />}
+        />
+    );
 };
 
 export default PrivateRoute;

@@ -4,7 +4,6 @@ import {Card, Button, Modal, Row, Col, Form} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {useNavigate} from 'react-router-dom';
 import AddProject from './AddProject';
-import ConnectGA4Button from "../dashboard/google-ga/ConnectGA4Button";
 
 //Funções específicas do Firebase
 import {collection, getDocs,} from 'firebase/firestore';
@@ -49,7 +48,6 @@ const ListProjects = ({name}) => {
 
     return (
         <>
-            <ConnectGA4Button />
             <Row className="justify-content-between mt-3">
                 <Col md={5} className="position-relative">
                     <Form.Control
